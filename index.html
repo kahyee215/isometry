@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NALA / Flutterwave / Yellow Card</title>
+  <style>
+    :root {
+      --ink: #2a2a2a;
+      --muted: #76736f;
+      --line: #e7e3dd;
+      --soft: #fbfaf8;
+      --africa: #efc45d;
+      --eur: #5aa0e8;
+      --latam: #74bd92;
+      --asia: #ef7165;
+      --me: #dd8d4d;
+      --na: #c8c8c8;
+      --accent: #1d5f6f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f7f5f1;
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    a { color: #1769aa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      padding: 20px 0 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 8px 0 10px;
+      font-size: clamp(32px, 6vw, 64px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 900px;
+      margin: 0;
+      color: #58534e;
+      font-size: 18px;
+    }
+
+    section { padding: 30px 0; }
+    h2 { margin: 0 0 16px; font-size: 28px; line-height: 1.2; }
+    h3 { margin: 0 0 10px; font-size: 18px; line-height: 1.35; }
+    p { margin: 0 0 12px; }
+
+    .takeaways {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .takeaway {
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(30, 25, 20, .04);
+    }
+
+    .takeaway ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .callout {
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: #eef6f7;
+      border-radius: 6px;
+      color: #33484d;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .chart-card {
+      min-height: 330px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(30, 25, 20, .04);
+    }
+
+    .chart-card svg {
+      display: block;
+      width: 100%;
+      height: 260px;
+      overflow: visible;
+    }
+
+    .chart-note {
+      min-height: 42px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 650;
+      text-align: center;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .swatch {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 6px;
+      border-radius: 3px;
+      vertical-align: -1px;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      vertical-align: top;
+      white-space: pre-line;
+    }
+
+    th:last-child, td:last-child { border-right: 0; }
+    tr:last-child td { border-bottom: 0; }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #3b3733;
+      background: #f2eee8;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .country-col { min-width: 190px; font-weight: 750; }
+    .region-pill {
+      display: inline-block;
+      min-width: 58px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #443f3a;
+      font-weight: 750;
+      text-align: center;
+      background: #eee;
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 0 0 14px;
+    }
+
+    input, select {
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 0 10px;
+      font: inherit;
+    }
+
+    input { width: min(360px, 100%); }
+
+    .source-list {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .license-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .compact-table { min-width: 760px; }
+
+    .footer {
+      padding-top: 24px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    code {
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #eee8dd;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .92em;
+    }
+
+    @media (max-width: 860px) {
+      .page { padding: 22px 14px 42px; }
+      .takeaways, .chart-grid, .license-grid, .summary-strip {
+        grid-template-columns: 1fr;
+      }
+      .tools { align-items: stretch; flex-direction: column; }
+      input, select { width: 100%; }
+      .chart-card svg { height: 230px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="eyebrow">Country-channel and license coverage</div>
+      <h1>NALA / Flutterwave / Yellow Card</h1>
+      <p class="lead">A comparative map of three Africa-focused payment infrastructure companies across local rails, mobile money networks, country coverage, and regulatory positioning.</p>
+    </header>
+
+    <section>
+      <h2>Key Takeaways</h2>
+      <div class="takeaways">
+        <article class="takeaway">
+          <h3>非洲市场的护城河在于与本地移动支付网络的深度整合，Flutterwave 是非洲市场绝对的头部玩家</h3>
+          <p>在非洲，仅靠传统的银行对公接口完全不够，移动钱包的高度碎片化是核心壁垒。</p>
+          <ul>
+            <li>三家公司在肯尼亚、尼日利亚、卢旺达、坦桑尼亚、乌干达、南非、喀麦隆、科特迪瓦、塞内加尔等市场高度重叠，并与 MTN、Airtel、Orange、M-PESA、Moov、Wave 等移动钱包深度绑定。</li>
+            <li>Flutterwave 的本地移动钱包接入广度最强，尤其是在西非法语区；尼日利亚收单渠道覆盖 card、USSD、NQR、Apple Pay、eNaira 等。</li>
+            <li>NALA 的优势来自 2C remittance payout 网络，并通过 Rafiki 向 B2B 支付延伸；Yellow Card 的优势来自 stablecoin-native on/off-ramp 和本地 fiat liquidity。</li>
+            <li>Last-mile 本地渠道是重资产运营，需要处理本地实体合规和流动性资金配置，新玩家切入成本很高。</li>
+          </ul>
+        </article>
+        <article class="takeaway">
+          <h3>EUR 覆盖数量很高，但更多是标准化 rails，不作为最强竞争壁垒</h3>
+          <p>在欧洲，三者虽多有覆盖，但更多是 card / bank / SEPA / IBAN 等标准化 rails，差异化弱于非洲本地 mobile money 网络。</p>
+          <ul>
+            <li>NALA 和 Flutterwave 对欧洲覆盖很广，但主要依赖可规模化复用的 card、Apple Pay、bank、account、SEPA rails。</li>
+            <li>欧洲更像 funding / collection side，而不是 last-mile payout 战场。</li>
+            <li>非洲代表本地渠道深度，欧洲代表标准化资金入口的覆盖广度。</li>
+          </ul>
+        </article>
+        <article class="takeaway">
+          <h3>拉美市场的打法：直连国家级即时银行 API</h3>
+          <p>在拉美，Yellow Card 主要靠接入实时支付 API，与其他玩家形成高度同质化的正面竞争。</p>
+          <ul>
+            <li>拉美由政府或央行牵头的即时银行支付网络主导，如巴西 PIX、墨西哥 SPEI、阿根廷 CVU/CBU。</li>
+            <li>B2B 客户会直接对比 API 性能、费率和在当地银行/钱包网络的深度。</li>
+            <li>Yellow Card 和 OpenFX 的 Coming Soon 市场高度重叠，后续执行节奏值得关注。</li>
+          </ul>
+        </article>
+        <article class="takeaway">
+          <h3>亚太和中东正成为新的核心增量市场</h3>
+          <p>非洲市场的本地渠道已被 NALA 和 Flutterwave 高度瓜分，APAC 和 MENA 正成为新的增量方向。</p>
+          <ul>
+            <li>NALA 已深度绑定南亚侨汇市场，在印度、巴基斯坦、孟加拉对 UPI、bKash、Nagad、Easypaisa、JazzCash 等渠道具备独占性。</li>
+            <li>中东需要牌照或重量级持牌合作，纯 API 接入通常不够。</li>
+            <li>阿联酋、沙特、巴林是 Yellow Card 和 Flutterwave 正在建立合规存在的核心区域。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coverage Snapshot</h2>
+      <div class="summary-strip">
+        <div class="metric"><strong>68</strong><span>Total countries / markets</span></div>
+        <div class="metric"><strong>37</strong><span>NALA coverage count</span></div>
+        <div class="metric"><strong>53</strong><span>Flutterwave coverage count</span></div>
+        <div class="metric"><strong>24 / 31</strong><span>Yellow Card active / with plan</span></div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Global Region Distribution</h3>
+          <svg id="globalDonut" role="img" aria-label="Global region distribution"></svg>
+          <div class="chart-note">Corridor 高度集中于非洲 + 欧洲（合占 72.1%）</div>
+        </div>
+        <div class="chart-card">
+          <h3>Region Coverage Count</h3>
+          <svg id="regionBar" role="img" aria-label="Region coverage count"></svg>
+          <div class="chart-note">非洲是 PSP 当前主战场，欧洲最容易规模化铺开</div>
+        </div>
+        <div class="chart-card">
+          <h3>NALA by Region</h3>
+          <svg id="nalaDonut" role="img" aria-label="NALA by region"></svg>
+          <div class="chart-note">EUR / NA 是资金来源侧，Africa / Asia 是收款侧</div>
+        </div>
+        <div class="chart-card">
+          <h3>Flutterwave by Region</h3>
+          <svg id="flutterwaveDonut" role="img" aria-label="Flutterwave by region"></svg>
+          <div class="chart-note">Africa / EUR 各占 45.3%，兼具本地支付和欧洲标准化 coverage</div>
+        </div>
+        <div class="chart-card">
+          <h3>Yellow Card by Region (active)</h3>
+          <svg id="yellowActiveDonut" role="img" aria-label="Yellow Card active by region"></svg>
+          <div class="chart-note">脱水后仍以 Africa 为核心，LatAm 是重要方向</div>
+        </div>
+        <div class="chart-card">
+          <h3>Countries Covered by ≥ 1 Projects</h3>
+          <svg id="overlapBar" role="img" aria-label="Countries covered by at least one project"></svg>
+          <div class="chart-note">高 overlap 国家集中在 Africa 和 EUR；Africa 的 overlap 更有战略价值</div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <section>
+      <h2>Country-channel Coverage</h2>
+      <p class="callout">下表展示三个 Africa-focused 支付基建公司的不同路径：<strong>Flutterwave</strong> 是非洲本地收单的绝对头部玩家，<strong>NALA</strong> 正从 2C 汇款向 B2B 清算层演进，<strong>Yellow Card</strong> 是特定市场的灵活渠道商。</p>
+      <p><code>In</code> = receive / collect from that country；<code>Out</code> = send / payout to that country。</p>
+      <ul class="source-list">
+        <li>NALA: <a href="https://help.nala.money/en/collections/9704202-send-money-to">Send Money to</a>, <a href="https://help.nala.money/en/articles/9538600-which-countries-can-i-send-money-from">Which countries can I send money from?</a></li>
+        <li>Flutterwave: <a href="https://flutterwave.com/us/support/payment-methods">Payment methods</a></li>
+        <li>Yellow Card: <a href="https://docs.yellowcard.engineering/docs/coverage-api">Coverage API</a></li>
+      </ul>
+      <div class="tools">
+        <input id="search" type="search" placeholder="Search country or rail">
+        <select id="regionFilter" aria-label="Filter by region">
+          <option value="">All regions</option>
+          <option>NA</option>
+          <option>EUR</option>
+          <option>Africa</option>
+          <option>LatAm</option>
+          <option>ME</option>
+          <option>Asia</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table id="coverageTable">
+          <thead>
+            <tr>
+              <th class="country-col">Country</th>
+              <th>Region</th>
+              <th>NALA</th>
+              <th>Flutterwave</th>
+              <th>Yellow Card</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>License Coverage</h2>
+      <div class="license-grid">
+        <div>
+          <h3>监管门槛：Out 通常比 In 更难</h3>
+          <p><strong><code>In</code> 侧</strong>：合规压力主要在资金汇出国，PSP 可以持有资金传输类牌照，或通过 EMI 等持牌合作伙伴间接完成。</p>
+          <p><strong><code>Out</code> 侧</strong>：合规压力落在资金接收国，PSP 通常必须自持 <code>PSP</code> / <code>IMTO</code> / 本地银行牌照，或深度绑定本地银行、移动钱包运营商和清算系统。</p>
+          <div class="callout">在外汇管制严格的市场，资金必须在指定银行完成外币结汇，并接受央行额度与真实性审核。</div>
+        </div>
+        <div>
+          <h3>三家 PSP 各自概况</h3>
+          <p><strong>NALA</strong>：从面向海外侨民的 remittance app 起家，通过 IMTO / PSP / PSO / MSB / MTL 和 Modulr 等合作向多牌照 PSP 演进。</p>
+          <p><strong>Flutterwave</strong>：全球化全栈 PSP，覆盖 card acquiring、mobile money、bank rails 和 blockchain settlement，监管覆盖范围最广。</p>
+          <p><strong>Yellow Card</strong>：stablecoin-native infra provider，连接本地 fiat rails 和美元稳定币流动性，覆盖 20 个非洲国家、14 种本地货币，处理逾 $6B 交易量。</p>
+        </div>
+      </div>
+      <h3>License 解释表</h3>
+      <p>牌照层级：银行 &gt; 支付系统 &gt; 电子货币 &gt; 支付服务 &gt; 汇款 &gt; 加密资产 &gt; AML 注册；层级越高，业务自主权越大。</p>
+      <div class="table-wrap">
+        <table class="compact-table" id="licenseTable">
+          <thead>
+            <tr>
+              <th>牌照名称</th>
+              <th>适用范围</th>
+              <th>层级</th>
+              <th>由谁监管</th>
+              <th>作用</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <h3>License / Local Partnership Coverage</h3>
+      <div class="table-wrap">
+        <table class="compact-table">
+          <tbody>
+            <tr><th>自有</th><td>公司自己持有能直接经营业务的牌照，比如 <code>MTL</code>, <code>PSP</code>, <code>IMTO</code>, <code>EMI</code>, <code>VASP</code>, <code>PI</code>。</td></tr>
+            <tr><th>注册</th><td>公司完成监管登记或 AML reporting registration，比如 FinCEN <code>MSB</code>, FINTRAC <code>MSB</code>, <code>FIC</code> / <code>FIU</code> registration；通常不等于完整经营牌照。</td></tr>
+            <tr><th>合作</th><td>通过本地持牌机构的牌照做技术搭接；控制力中等，括号内为合作公司相应资质/牌照。</td></tr>
+            <tr><th>未核实</th><td>公开信息中暂无明确牌照或合作记录。</td></tr>
+            <tr><th>N/A</th><td>暂未进入该市场。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="callout">已从 license 主表移除的国家：Benin, Burkina Faso, Central African Republic, Chad, Congo Brazzaville, Côte d'Ivoire, Gabon, Guinea-Bissau, Mali, Sierra Leone, Togo, Argentina, Bolivia, Brazil, Chile, Colombia, Ecuador, Mexico, Peru, Bangladesh, Cambodia, India, Pakistan, Philippines, Sri Lanka, Saudi Arabia, Bahrain。原因是三家 PSP 均处于“未核实”，且无任何一方拥有可确认自有牌照或正式合作。</p>
+    </section>
+
+    <div class="footer">
+      Source: Notion research page “NALA / Flutterwave / Yellow Card”. Generated as a static GitHub Pages report.
+    </div>
+  </div>
+
+  <script>
+    const colors = {
+      Africa: "#efc45d",
+      EUR: "#5aa0e8",
+      LatAm: "#74bd92",
+      Asia: "#ef7165",
+      ME: "#dd8d4d",
+      NA: "#c8c8c8"
+    };
+
+    const coverageRows = [
+      ["United States 🇺🇸","NA","In: USD via card / Apple Pay","In: USD via card / Apple Pay\nOut: USD via bank",""],
+      ["Canada 🇨🇦","NA","","In: CAD via Send App",""],
+      ["Austria 🇦🇹","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Belgium 🇧🇪","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Cyprus 🇨🇾","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Denmark 🇩🇰","EUR","","Out: EUR via SEPA",""],
+      ["Estonia 🇪🇪","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Finland 🇫🇮","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["France 🇫🇷","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA","Out: EUR via IBAN"],
+      ["Germany 🇩🇪","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Greece 🇬🇷","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Ireland 🇮🇪","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Italy 🇮🇹","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Latvia 🇱🇻","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Lithuania 🇱🇹","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Luxembourg 🇱🇺","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Malta 🇲🇹","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Netherlands 🇳🇱","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Norway 🇳🇴","EUR","","Out: EUR via SEPA",""],
+      ["Portugal 🇵🇹","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Slovakia 🇸🇰","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Slovenia 🇸🇮","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Spain 🇪🇸","EUR","In: EUR via card / Apple Pay / bank","In: EUR via card / account / Apple Pay\nOut: EUR via SEPA",""],
+      ["Sweden 🇸🇪","EUR","","Out: EUR via SEPA",""],
+      ["Switzerland 🇨🇭","EUR","","Out: EUR via SEPA",""],
+      ["United Kingdom 🇬🇧","EUR","In: GBP via card / Apple Pay / bank","In: GBP via card / account / Apple Pay\nOut: GBP via bank",""],
+      ["Benin 🇧🇯","Africa","","In: XOF via card / MTN / Moov","In/Out: XOF via MTN / Moov"],
+      ["Botswana 🇧🇼","Africa","","","In/Out: BWP via bank / MyZaka"],
+      ["Burkina Faso 🇧🇫","Africa","","In: XOF via card / Orange / Mobicash","Out: XOF mobile money coming soon"],
+      ["Cameroon 🇨🇲","Africa","Out: XAF via Orange / MTN\n\nB2B In/Out: Rafiki API","In: XAF via card / MTN / Orange\nOut: XAF via bank / MTN / Orange","In/Out: XAF via MTN / Orange"],
+      ["Central African Republic 🇨🇫","Africa","","In: XAF via regional card / unknown mobile money\nOut: XAF via bank / unknown mobile money",""],
+      ["Chad 🇹🇩","Africa","","In: XAF via regional card / unknown mobile money\nOut: XAF via bank / unknown mobile money",""],
+      ["Congo Brazzaville 🇨🇬","Africa","Out: XAF via Airtel / MTN\n\nB2B In/Out: Rafiki API","In: XAF via regional card / unknown mobile money\nOut: XAF via bank / unknown mobile money","In/Out: XAF via Airtel / MTN"],
+      ["Côte d’Ivoire 🇨🇮","Africa","Out: XOF via Orange Money / MTN Money / Moov\n\nB2B In/Out: Rafiki API","In: XOF via card / MTN / Orange / Moov / Wave\nOut: XOF via bank / MTN / Orange / Moov / Wave","In/Out: XOF via Moov / MTN / Orange / Wave"],
+      ["Egypt 🇪🇬","Africa","","In: EGP via Fawry Pay\nOut: EGP via bank / mobile / cash pickup",""],
+      ["Ethiopia 🇪🇹","Africa","","Out: USD via bank / Amole","Out: USD via bank"],
+      ["Gabon 🇬🇦","Africa","Out: XAF via Airtel / Moov","In: XAF via regional card / unknown mobile money\nOut: XAF via bank","In: XAF via bank\nOut: XAF mobile money coming soon"],
+      ["Ghana 🇬🇭","Africa","Out: GHS via bank / MTN / Tigo / Airtel / Vodafone\n\nB2B In/Out: Rafiki API","In: GHS via card / MTN / Tigo / Airtel / Vodafone\nOut: GHS via bank / MTN / Tigo / Airtel / Vodafone",""],
+      ["Guinea-Bissau 🇬🇼","Africa","","In: XOF via card / unknown mobile money\nOut: XOF via unknown mobile money",""],
+      ["Kenya 🇰🇪","Africa","Out: KES via M-PESA / Airtel / bank\n\nB2B In/Out: Rafiki API","In: KES via card / M-PESA\nOut: KES via bank / M-PESA","In: KES via M-PESA\nOut: KES via bank / M-PESA"],
+      ["Malawi 🇲🇼","Africa","","In: MWK via card / Mobile Money Malawi\nOut: MWK via bank / Airtel","In/Out: MWK via bank / Airtel / TNM"],
+      ["Mali 🇲🇱","Africa","","In: XOF via card / unknown mobile money","Out: XOF mobile money coming soon"],
+      ["Nigeria 🇳🇬","Africa","Out: NGN via bank\n\nB2B In/Out: Rafiki API","In: NGN via card / USSD / bank / account / internet banking / NQR / Apple Pay / eNaira / OPay\nOut: NGN via bank","In/Out: NGN via bank"],
+      ["Rwanda 🇷🇼","Africa","Out: RWF via MTN / Airtel / Tigo Cash\n\nB2B In/Out: Rafiki API","In/Out: RWF via bank / MTN / Airtel","In/Out: RWF via bank / MTN"],
+      ["Senegal 🇸🇳","Africa","Out: XOF via Orange / Free Money / Expresso / Wave\n\nB2B In/Out: Rafiki API","In: XOF via card / Orange / Wave / Free\nOut: XOF via bank / Orange / Wave / Free / E-Money","In: XOF mobile money coming soon\nOut: XOF via Orange / Wave / Free"],
+      ["Sierra Leone 🇸🇱","Africa","","Out: SLL via bank",""],
+      ["South Africa 🇿🇦","Africa","Out: ZAR via bank\n\nB2B In/Out: Rafiki API","In: ZAR via card / account / 1Voucher / Apple Pay\nOut: ZAR via bank","In/Out: ZAR via bank"],
+      ["Tanzania 🇹🇿","Africa","Out: TZS via Tigo Pesa / Airtel / Vodacom M-Pesa / Halotel / AzamPesa / bank\n\nB2B In/Out: Rafiki API","In/Out: TZS via bank / Airtel / HaloPesa / TigoPesa / Vodacom M-Pesa","In/Out: TZS via bank / Airtel / HaloPesa / TigoPesa"],
+      ["Togo 🇹🇬","Africa","","In: XOF via card / unknown mobile money","In/Out: XOF via Moov / Togocell"],
+      ["Uganda 🇺🇬","Africa","Out: UGX via MTN / Airtel / bank\n\nB2B In/Out: Rafiki API","In/Out: UGX via bank / Airtel / MTN","In/Out: UGX via bank / Airtel / MTN"],
+      ["Zambia 🇿🇲","Africa","","In/Out: ZMW via Airtel / MTN / Zamtel","In/Out: ZMW via Airtel / MTN / TNM"],
+      ["Argentina 🇦🇷","LatAm","","","In/Out: ARS via local bank CVU/CBU"],
+      ["Bolivia 🇧🇴","LatAm","","","In/Out: BOB coming soon"],
+      ["Brazil 🇧🇷","LatAm","","","In: BRL via PIX\nOut: BRL via PIX"],
+      ["Chile 🇨🇱","LatAm","","","In/Out: CLP coming soon"],
+      ["Colombia 🇨🇴","LatAm","","","In/Out: COP via local bank"],
+      ["Ecuador 🇪🇨","LatAm","","","Out: USD via local bank"],
+      ["Mexico 🇲🇽","LatAm","","","In/Out: MXN via SPEI"],
+      ["Peru 🇵🇪","LatAm","","","In/Out: PEN coming soon"],
+      ["UAE 🇦🇪","ME","","In/Out: AED via Send App / bank","In/Out: AED via Mastercard"],
+      ["Bahrain 🇧🇭","ME","","In/Out: BHD via bank",""],
+      ["Saudi Arabia 🇸🇦","ME","","In/Out: SAR via bank",""],
+      ["Bangladesh 🇧🇩","Asia","Out: BDT via bKash / Nagad / bank\n\nB2B In/Out: Rafiki API","",""],
+      ["Cambodia 🇰🇭","Asia","","","Out: USD via local bank"],
+      ["India 🇮🇳","Asia","Out: INR via UPI / bank\n\nB2B In/Out: Rafiki API","",""],
+      ["Pakistan 🇵🇰","Asia","Out: PKR via Easypaisa / JazzCash / SadaPay / Upaisa / bank\n\nB2B In/Out: Rafiki API","",""],
+      ["Philippines 🇵🇭","Asia","Out: PHP via GCash / Maya / Coins / GrabPay / bank\n\nB2B In/Out: Rafiki API","",""],
+      ["Sri Lanka 🇱🇰","Asia","","","Out: USD via local bank"]
+    ];
+
+    const licenseRows = [
+      ["MFB\n(Microfinance Bank License)", "单一国家", "银行", "各国央行：Central Bank of Nigeria (CBN)", "可以吸收存款、发放贷款，直接接入银行间清算系统，在支付业务中可持有客户资金"],
+      ["PSO\n(Payment System Operator)", "单一国家", "支付系统", "各国央行", "运营支付系统，处理跨银行/跨钱包清结算，层级高于 PSP"],
+      ["EMI\n(Electronic Money Issuer)", "单一国家", "电子货币", "UK: FCA\nEU: DNB", "发行 e-money、持有客户余额、提供钱包和支付服务"],
+      ["PSP\n(Payment Service Provider)", "单一国家", "支付服务", "各国央行", "直接接入本地银行、钱包、清算系统，处理本地支付"],
+      ["PI\n(Payment Institution)", "单一国家 / 区域货币联盟", "支付服务", "UK: FCA\nPoland: KNF\nWest Africa: BCEAO", "综合支付机构牌照，覆盖收单、付款、结算等"],
+      ["VASP / CASP\n(Virtual Asset Service Provider)", "单一国家", "加密资产", "South Africa: FSCA\nBotswana: NBFIRA\nPoland: KNF", "提供 crypto / stablecoin 交易、托管、兑换等虚拟资产服务"],
+      ["MTL\n(Money Transmitter License)", "美国单一州", "汇款", "美国各州金融监管机构", "在特定州合法经营 money transmission / remittance"],
+      ["IMTO\n(International Money Transfer Operator)", "单一国家", "汇款", "各国央行", "合法经营跨境汇款，尤其是境外向本国汇入"],
+      ["MSB\n(Money Services Business)", "美国 / 加拿大", "AML 注册", "US: FinCEN\nCanada: FINTRAC", "money-services 基础注册；用于 AML/KYC 合规，不等于完整州级汇款牌照"],
+      ["AML Registration", "单一国家", "AML 注册", "各国 FIU / FIC", "仅为 AML reporting 注册；不是 PSP / VASP / money transfer 完整经营牌照"]
+    ];
+
+    function regionPill(region) {
+      return `<span class="region-pill" style="background:${colors[region] || "#eee"}33;border:1px solid ${colors[region] || "#ddd"}">${region}</span>`;
+    }
+
+    function renderCoverageTable() {
+      const tbody = document.querySelector("#coverageTable tbody");
+      const query = document.querySelector("#search").value.toLowerCase();
+      const region = document.querySelector("#regionFilter").value;
+      tbody.innerHTML = "";
+      coverageRows
+        .filter(row => !region || row[1] === region)
+        .filter(row => row.join(" ").toLowerCase().includes(query))
+        .forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td class="country-col">${row[0]}</td><td>${regionPill(row[1])}</td><td>${row[2] || "—"}</td><td>${row[3] || "—"}</td><td>${row[4] || "—"}</td>`;
+          tbody.appendChild(tr);
+        });
+    }
+
+    function renderLicenseTable() {
+      const tbody = document.querySelector("#licenseTable tbody");
+      tbody.innerHTML = licenseRows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join("")}</tr>`).join("");
+    }
+
+    function polar(cx, cy, r, angle) {
+      const rad = (angle - 90) * Math.PI / 180;
+      return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
+    }
+
+    function arcPath(cx, cy, r, start, end) {
+      const [sx, sy] = polar(cx, cy, r, end);
+      const [ex, ey] = polar(cx, cy, r, start);
+      const large = end - start <= 180 ? 0 : 1;
+      return `M ${sx} ${sy} A ${r} ${r} 0 ${large} 0 ${ex} ${ey}`;
+    }
+
+    function drawDonut(id, data) {
+      const svg = document.getElementById(id);
+      const width = svg.clientWidth || 520;
+      const height = 250;
+      const cx = width / 2;
+      const cy = 118;
+      const r = Math.min(86, width / 5);
+      const total = data.reduce((sum, d) => sum + d.value, 0);
+      let angle = 0;
+      let paths = "";
+      data.forEach(d => {
+        const next = angle + d.value / total * 360;
+        paths += `<path d="${arcPath(cx, cy, r, angle, next)}" stroke="${colors[d.region]}" stroke-width="24" fill="none" stroke-linecap="butt"></path>`;
+        angle = next;
+      });
+      const labels = data.map((d, i) => {
+        const mid = (data.slice(0, i).reduce((s, x) => s + x.value, 0) + d.value / 2) / total * 360;
+        const [x, y] = polar(cx, cy, r + 54, mid);
+        const anchor = x > cx ? "start" : "end";
+        return `<text x="${x}" y="${y}" text-anchor="${anchor}" fill="#8a8580" font-size="14" font-weight="700">${d.value} (${(d.value / total * 100).toFixed(1)}%)</text>`;
+      }).join("");
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.innerHTML = `${paths}${labels}<text x="${cx}" y="${cy + 9}" text-anchor="middle" font-size="48" font-weight="800" fill="#2a2a2a">${total}</text><text x="${cx}" y="${cy + 42}" text-anchor="middle" font-size="18" font-weight="700" fill="#76736f">Total</text>`;
+    }
+
+    function drawHorizontalBar(id, data) {
+      const svg = document.getElementById(id);
+      const width = svg.clientWidth || 520;
+      const height = 250;
+      const left = 100;
+      const right = 40;
+      const top = 22;
+      const rowH = Math.min(38, (height - 34) / data.length);
+      const max = Math.max(...data.map(d => d.value));
+      const scale = (width - left - right) / max;
+      const rows = data.map((d, i) => {
+        const y = top + i * rowH;
+        const w = d.value * scale;
+        return `<text x="${left - 10}" y="${y + 18}" text-anchor="end" fill="#76736f" font-size="16" font-weight="700">${d.label}</text><rect x="${left}" y="${y + 5}" width="${w}" height="16" rx="3" fill="${d.color}"></rect><text x="${left + w + 8}" y="${y + 18}" fill="#76736f" font-size="16" font-weight="700">${d.value}</text>`;
+      }).join("");
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.innerHTML = rows;
+    }
+
+    function overlapData() {
+      return coverageRows
+        .map(row => ({ label: row[0], region: row[1], value: [row[2], row[3], row[4]].filter(Boolean).length }))
+        .filter(d => d.value > 0)
+        .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label))
+        .slice(0, 28)
+        .map(d => ({ label: d.label.replace(/ .*/, ""), value: d.value, color: colors[d.region] }));
+    }
+
+    function initCharts() {
+      drawDonut("globalDonut", [
+        { region: "Africa", value: 25 },
+        { region: "EUR", value: 24 },
+        { region: "LatAm", value: 8 },
+        { region: "Asia", value: 6 },
+        { region: "ME", value: 3 },
+        { region: "NA", value: 2 }
+      ]);
+      drawHorizontalBar("regionBar", [
+        { label: "Africa", value: 25, color: colors.Africa },
+        { label: "EUR", value: 24, color: colors.EUR },
+        { label: "LatAm", value: 8, color: colors.LatAm },
+        { label: "Asia", value: 6, color: colors.Asia },
+        { label: "ME", value: 3, color: colors.ME },
+        { label: "NA", value: 2, color: colors.NA }
+      ]);
+      drawDonut("nalaDonut", [
+        { region: "EUR", value: 20 },
+        { region: "Africa", value: 12 },
+        { region: "Asia", value: 4 },
+        { region: "NA", value: 1 }
+      ]);
+      drawDonut("flutterwaveDonut", [
+        { region: "Africa", value: 24 },
+        { region: "EUR", value: 24 },
+        { region: "ME", value: 3 },
+        { region: "NA", value: 2 }
+      ]);
+      drawDonut("yellowActiveDonut", [
+        { region: "Africa", value: 15 },
+        { region: "LatAm", value: 5 },
+        { region: "Asia", value: 2 },
+        { region: "EUR", value: 1 },
+        { region: "ME", value: 1 }
+      ]);
+      drawHorizontalBar("overlapBar", overlapData());
+      document.getElementById("legend").innerHTML = Object.entries(colors).map(([name, color]) => `<span><i class="swatch" style="background:${color}"></i>${name}</span>`).join("");
+    }
+
+    document.querySelector("#search").addEventListener("input", renderCoverageTable);
+    document.querySelector("#regionFilter").addEventListener("change", renderCoverageTable);
+    window.addEventListener("resize", initCharts);
+    renderCoverageTable();
+    renderLicenseTable();
+    initCharts();
+  </script>
+</body>
+</html>
