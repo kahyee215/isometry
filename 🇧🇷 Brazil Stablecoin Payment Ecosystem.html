@@ -1,0 +1,4798 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brazil Stablecoin Payment Ecosystem</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #637083;
+      --line: #d8dee8;
+      --line-strong: #aab4c3;
+      --seed: #111827;
+      --bridge: #007f72;
+      --eco: #6b7280;
+      --settlement: #8b5cf6;
+      --banking: #11b981;
+      --orchestration: #f59e0b;
+      --liquidity: #0ca5e9;
+      --distribution: #f43f5e;
+      --partnership: #5eead4;
+      --client: #a5b4fc;
+      --investor: #fde047;
+      --ownership: #f9a8d4;
+      --focus: #111827;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(720px, 1fr) 340px;
+      grid-template-rows: auto auto auto 1fr;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.2;
+      font-weight: 720;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .research-summary,
+    .top-takeaways,
+    .page-tabs,
+    .node-page {
+      grid-column: 1 / -1;
+    }
+
+    .research-summary {
+      padding: 16px 24px 18px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .research-summary h2 {
+      margin: 0 0 8px;
+      color: #111827;
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 760;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .block-title {
+      margin: 0 0 8px;
+      color: #111827;
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .research-summary p {
+      margin: 0 0 12px;
+      max-width: 1180px;
+      color: #344155;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .research-subtitle {
+      margin: 14px 0 7px;
+      color: #111827;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .research-list {
+      margin: 0 0 12px;
+      padding-left: 0;
+      max-width: 1180px;
+      color: #344155;
+      font-size: 13px;
+      line-height: 1.55;
+      list-style: none;
+    }
+
+    .research-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .research-list .class-marker {
+      margin-top: 3px;
+      margin-right: 2px;
+    }
+
+    .top-takeaways {
+      padding: 18px 24px 20px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top-takeaways h2 {
+      margin: 0 0 12px;
+      color: #111827;
+      font-weight: 760;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .seed-table-title {
+      margin-top: 14px;
+    }
+
+    .takeaway-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 1180px;
+    }
+
+    .takeaway-main {
+      margin: 0;
+      color: #273244;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .takeaway-main {
+      padding-left: 20px;
+    }
+
+    .takeaway-main li {
+      margin-bottom: 10px;
+    }
+
+    .page-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .page-tabs button,
+    .info-tabs button {
+      border: 0;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 11px 16px;
+      font-size: 14px;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    .info-tabs button {
+      font-size: 15px;
+      font-weight: 720;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .page-tabs button.active,
+    .info-tabs button.active {
+      color: #111827;
+      font-weight: 760;
+      box-shadow: inset 0 -3px 0 #111827;
+    }
+
+    .graph-view-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .graph-view-tabs button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      color: #334155;
+      padding: 13px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .graph-view-tabs button:last-child {
+      border-right: 0;
+    }
+
+    .graph-view-tabs button.active {
+      color: #111827;
+      font-weight: 760;
+      box-shadow: inset 0 -3px 0 #111827;
+    }
+
+    .page-hidden {
+      display: none !important;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 12px;
+      max-width: 1180px;
+    }
+
+    .stat-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-group-title {
+      color: #334155;
+      font-size: 12px;
+      font-weight: 820;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(70px, 1fr));
+      gap: 8px;
+    }
+
+    .stat-grid.nodes {
+      grid-template-columns: repeat(3, minmax(110px, 1fr));
+    }
+
+    .stat-grid.edges {
+      grid-template-columns: repeat(4, minmax(110px, 1fr));
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      background: #edf1f7;
+      padding: 12px 14px;
+      min-height: 74px;
+    }
+
+    .stat.node-seed {
+      border: 2px solid #111827;
+      background: #E5E5E5;
+    }
+
+    .stat.node-bridge {
+      border: 2px dashed #111827;
+      background: #E5E5E5;
+    }
+
+    .stat.node-eco {
+      border: 0;
+      background: #E5E5E5;
+      padding: 13px 15px;
+    }
+
+    .stat .value {
+      font-size: 20px;
+      font-weight: 760;
+    }
+
+    .stat .label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    aside, .inspector {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      overflow: auto;
+    }
+
+    .inspector {
+      border-right: none;
+      border-left: 1px solid var(--line);
+    }
+
+    .panel-section {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: #334155;
+      font-weight: 780;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .section-link {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      color: inherit;
+      font: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line-strong);
+      overflow: hidden;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    tr:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .segmented button, .small-button {
+      border: 0;
+      background: #fff;
+      color: var(--ink);
+      padding: 9px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      border-right: 1px solid var(--line);
+    }
+
+    .segmented button:last-child { border-right: 0; }
+
+    .segmented button.active, .small-button.active {
+      background: #111827;
+      color: #fff;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      padding: 9px 10px;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .filter-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .filter-action {
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      color: #334155;
+      padding: 4px 7px;
+      font-size: 11px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      cursor: pointer;
+    }
+
+    .filter-action:hover,
+    .filter-action:focus-visible {
+      background: #e2e8f0;
+    }
+
+    label.check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #334155;
+      font-size: 13px;
+      line-height: 1.3;
+      cursor: pointer;
+    }
+
+    .swatch {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      border-radius: 50%;
+      border: 1px solid rgba(17, 24, 39, .18);
+      flex: 0 0 auto;
+    }
+
+    .class-marker {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      margin-right: 3px;
+    }
+
+    .class-marker::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #111827;
+      display: block;
+    }
+
+    .class-marker.seed {
+      border: 3px solid #111827;
+      border-radius: 50%;
+    }
+
+    .class-marker.bridge {
+      border: 2px dashed #111827;
+      border-radius: 50%;
+    }
+
+    .class-marker.eco::before {
+      width: 11px;
+      height: 11px;
+    }
+
+    .pix-legend {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pix-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+      border: 1px solid #fff;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, .12);
+    }
+
+    .root-select {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    main {
+      overflow: auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .canvas-shell {
+      min-height: 680px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow-x: auto;
+    }
+
+    #graph {
+      display: block;
+      width: 100%;
+      min-width: 980px;
+      background-image:
+        linear-gradient(to right, rgba(148, 163, 184, .12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, .12) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    .lane-label {
+      fill: #64748b;
+      font-size: 11px;
+      font-weight: 780;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .edge {
+      fill: none;
+      stroke-width: 1.8;
+      opacity: .78;
+      cursor: pointer;
+    }
+
+    .edge.dim { opacity: .08; }
+    .edge.focus { stroke-width: 3.2; opacity: .96; }
+    .edge:hover { stroke-width: 3.2; opacity: .95; }
+
+    .edge-label {
+      font-size: 10px;
+      fill: #475569;
+      paint-order: stroke;
+      stroke: rgba(255, 255, 255, .88);
+      stroke-width: 4px;
+      pointer-events: none;
+    }
+
+    .edge-type-dot {
+      stroke: #fff;
+      stroke-width: 1.4;
+      pointer-events: none;
+    }
+
+    .node {
+      cursor: pointer;
+    }
+
+    .node .core {
+      stroke: #fff;
+      stroke-width: 1.4px;
+      filter: drop-shadow(0 1px 1px rgba(15, 23, 42, .18));
+    }
+
+    .node .class-ring {
+      fill: none;
+      pointer-events: none;
+    }
+
+    .node.dim { opacity: .18; }
+
+    .node.focus .core {
+      stroke: var(--focus);
+      stroke-width: 2.4px;
+    }
+
+    .node.focus .class-ring {
+      stroke: var(--focus);
+      opacity: 1;
+    }
+
+    .node-label {
+      font-size: 11px;
+      fill: #1f2937;
+      font-weight: 650;
+      paint-order: stroke;
+      stroke: rgba(255, 255, 255, .9);
+      stroke-width: 4px;
+      pointer-events: none;
+    }
+
+    .license-mark {
+      pointer-events: none;
+    }
+
+    .license-mark rect {
+      stroke: none;
+    }
+
+    .license-mark text {
+      font-size: 10px;
+      fill: #111827;
+      font-weight: 760;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .degree-text {
+      fill: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .pix-mark {
+      stroke: #fff;
+      stroke-width: 1.4px;
+      pointer-events: none;
+    }
+
+    .pix-check {
+      fill: #fff;
+      font-size: 8px;
+      font-weight: 800;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .graph-info,
+    .edge-dashboard,
+    .table-area {
+      background: #fff;
+      padding: 0;
+    }
+
+    .graph-info {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 16px 16px;
+    }
+
+    .graph-info p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mini-table {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .seed-comparison {
+      margin-top: 14px;
+    }
+
+    .seed-comparison th:first-child,
+    .seed-comparison td:first-child {
+      width: 100px;
+      min-width: 100px;
+      font-weight: 400;
+      color: #334155;
+      background: #f8fafc;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 7px 9px;
+    }
+
+    .edge-dashboard {
+      border-top: 1px solid var(--line);
+      padding: 14px 16px 16px;
+    }
+
+    .dashboard-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .dashboard-muted {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .dashboard-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-controls .filter-list,
+    .node-filter-row .filter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .tabs button {
+      border: 0;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 11px 16px;
+      font-size: 13px;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    .tabs button.active {
+      color: #111827;
+      font-weight: 760;
+      box-shadow: inset 0 -3px 0 #111827;
+    }
+
+    .table-scroll {
+      max-height: 390px;
+      overflow: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 1040px;
+      font-size: 12px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #e5e9f0;
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475569;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .035em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    td a {
+      color: #145ea8;
+      text-decoration: none;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 20px;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      font-size: 11px;
+      line-height: 1.2;
+      background: #f8fafc;
+      color: #334155;
+      margin: 0 4px 4px 0;
+      white-space: nowrap;
+    }
+
+    .pill.role-pill,
+    .pill.license-pill,
+    .pill.stablecoin-pill,
+    .pill.edge-pill {
+      border-color: transparent;
+      font-weight: 680;
+    }
+
+    .pill.role-secondary {
+      background: #fff !important;
+    }
+
+    .pill.stablecoin-pill {
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .node-page {
+      background: #fff;
+      min-height: 680px;
+      padding: 18px 22px 26px;
+    }
+
+    .node-page-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .info-card,
+    .node-table-card {
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .node-table-card {
+      position: relative;
+    }
+
+    .node-view-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .node-view-tabs button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      color: #334155;
+      padding: 12px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .node-view-tabs button:last-child {
+      border-right: 0;
+    }
+
+    .node-view-tabs button.active {
+      color: #111827;
+      font-weight: 760;
+      box-shadow: inset 0 -3px 0 #111827;
+    }
+
+    .info-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .info-body {
+      padding: 14px 16px 16px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #273244;
+    }
+
+    .info-body p {
+      margin: 0 0 12px;
+    }
+
+    .node-table-top {
+      display: grid;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .node-table-top.compact {
+      display: block;
+    }
+
+    .node-filter-row {
+      display: grid;
+      gap: 7px;
+    }
+
+    .node-filter-row .section-title {
+      margin-bottom: 0;
+    }
+
+    .node-table-card .table-scroll {
+      max-height: 620px;
+    }
+
+    .node-board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(230px, 1fr));
+      gap: 12px;
+      padding: 14px;
+      align-items: start;
+    }
+
+    .role-column {
+      min-width: 230px;
+      border: 1px solid var(--line);
+      padding: 10px;
+    }
+
+    .role-column-title {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: -10px -10px 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 780;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, .08);
+    }
+
+    .role-column-count {
+      color: rgba(255, 255, 255, .82);
+      font-size: 11px;
+      margin-left: 6px;
+      font-weight: 650;
+    }
+
+    .node-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, .05);
+    }
+
+    .node-card-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 7px;
+      font-size: 15px;
+      line-height: 1.25;
+      font-weight: 760;
+      color: #1f2937;
+    }
+
+    .node-card-meta,
+    .node-card-notes {
+      margin-top: 7px;
+      color: #334155;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .node-card-label {
+      display: block;
+      margin-bottom: 3px;
+      color: #64748b;
+      font-size: 10px;
+      font-weight: 760;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .filter-th {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-trigger {
+      border: 1px solid var(--line);
+      background: #fff;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #334155;
+    }
+
+    .filter-trigger svg {
+      width: 13px;
+      height: 13px;
+      display: block;
+    }
+
+    .filter-menu {
+      position: absolute;
+      z-index: 20;
+      min-width: 210px;
+      max-width: 360px;
+      max-height: 300px;
+      overflow: auto;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .14);
+      display: grid;
+      gap: 7px;
+    }
+
+    .filter-menu .filter-actions {
+      margin-bottom: 4px;
+    }
+
+    .filter-menu.hidden {
+      display: none;
+    }
+
+    .detail-title {
+      margin: 0 0 4px;
+      font-size: 19px;
+      font-weight: 760;
+      line-height: 1.2;
+    }
+
+    .detail-kicker {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .detail-row {
+      margin: 10px 0;
+    }
+
+    .detail-row .label {
+      color: #64748b;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 760;
+      margin-bottom: 4px;
+    }
+
+    .detail-row .value {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #25303f;
+    }
+
+    .degree-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .degree-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .bar {
+      height: 6px;
+      background: #e2e8f0;
+      overflow: hidden;
+      margin-top: 3px;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: #0f766e;
+    }
+
+    .takeaways {
+      padding: 18px 20px 22px;
+      max-width: 1120px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .takeaways h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .takeaways ol {
+      margin: 0;
+      padding-left: 21px;
+    }
+
+    .takeaways li {
+      margin: 0 0 10px;
+    }
+
+    @media (max-width: 1180px) {
+      .app {
+        grid-template-columns: 240px minmax(680px, 1fr);
+      }
+
+      .inspector {
+        grid-column: 1 / -1;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .takeaway-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .node-page {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>Brazil Stablecoin Payment Ecosystem</h1>
+        <div class="subtitle">Node and relationship map for Brazil stablecoin payments</div>
+      </div>
+    </header>
+
+    <section class="research-summary" aria-label="Research scope and method">
+      <h2>Research Scope</h2>
+      <p>🎯 该研究的主要目的是绘制巴西稳定币支付生态的结构性地图，识别该生态的关键节点，串联起稳定币的结算源头、本地牌照、Pix/银行通道、流动性、商户/用户分发。</p>
+      <p>💡 以 Circle、Tether、Ripple、Paxos 这四个关键生态起点作为 seed node，沿公开可验证的 relationship (Partnership、Client、Investor、Ownership) 向外扩展。分开记录节点与关系：节点表描述公司本身（角色、牌照、Pix 接入能力等），边表描述节点之间的连接性质与发现深度。</p>
+      <ul class="research-list">
+        <li><span class="class-marker seed" aria-hidden="true"></span><span><strong>Seed:</strong> 研究的入口节点，从它们出发能展开巴西稳定币支付生态最完整、最少断裂的链路。选择标准是路径覆盖最大化的解释力，而非单一身份。</span></li>
+        <li><span class="class-marker bridge" aria-hidden="true"></span><span><strong>Critical bridge:</strong> 离开它，多条核心路径会同时断裂的本地枢纽。通常是同时连接多个 Seed 或关键 Eco player，并占据 Pix、银行结算、跨境或软件嵌入等结构性位置的节点。</span></li>
+        <li><span class="class-marker eco" aria-hidden="true"></span><span><strong>Eco player:</strong> 生态中的功能性参与者，承担分发、流动性、银行通道、商户受理等具体职能。默认所有新发现节点从 Eco player 进入，当它展现出多边连接和不可替代性时归入 Critical bridge。</span></li>
+      </ul>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="top-takeaways" aria-label="Key takeaways">
+      <h2>Key Takeaways</h2>
+      <div class="takeaway-grid">
+        <ol class="takeaway-main">
+          <li><strong>Seed node 的选取标准不是“谁是发行方”，而是“谁能让本地生态的展开解释力最大化”。</strong> Circle、Tether、Ripple、Paxos 作为稳定币的结算源头或发行基础设施，能拉出完整的法币出入金和终端分发链路。Circle 展开机构分发和软件嵌入，Tether 展开零售 Pix 和现金终端，Ripple 展开银行跨境结算，Paxos 展开 PYUSD/USDP/USDG 及白标发行链路。四者并列为种子，不是基于单一身份，而是基于路径覆盖。</li>
+          <li><strong>巴西的稳定币支付生态不是单一节点主导，而是几条本地桥梁链路叠加而成。</strong> 真正让这个网络运转起来的，不是 Circle/Tether/Ripple/Paxos 本身，而是 SmartPay、Trace Finance、Ebury、Nium、BVNK 这类本地或跨境 B2B 桥，以及兼具多重角色的 Mercado Bitcoin、Bitso、Binance、Foxbit、Coinbase、AEON、PayPal、Visa、Mastercard。</li>
+          <li><strong>Circle 的巴西路径是“银行分发 + 软件嵌入”。</strong> BTG 是银行端机构分发，Nubank 是零售端分发，Matera 将 USDC 嵌入核心银行系统，Trace 负责 B2B 编排，EBANX 打通商户受理和支付生态。</li>
+          <li><strong>Tether 的巴西路径是“USDT → Pix 和现金终端”。</strong> SmartPay 是 Tether 在巴西核心的本地编排器，向下串联 Celcoin/Stark Bank 的 Pix 和银行通道，以及 TecBan/Edge 的 ATM 取现和钱包端点。</li>
+          <li><strong>Ripple 的巴西路径是“银行跨境结算桥”。</strong> 以 Mercado Bitcoin 为加密入口，接入 Banco Rendimento、Braza、Travelex、Banco Genial 等持牌银行和外汇机构，再延伸至 Ripio、Attrus、Nomad 等分发端点。这条路径不依赖零售场景，而是服务于机构级财资调拨和稳定币启用结算。</li>
+          <li><strong>Paxos 的巴西路径是“稳定币基础设施 + 白标发行”。</strong> 通过与 PicPay 合作进入巴西消费者市场，同时作为 PYUSD（PayPal）、USDP、USDG 的发行方，为 Mastercard 和 Visa 的稳定币结算网络提供底层支持。其白标服务还能让其他品牌快速发行合规稳定币，构成基础设施层。</li>
+        </ol>
+        <h2 class="seed-table-title">Seed Nodes Table</h2>
+        <table class="mini-table seed-comparison" aria-label="Seed node comparison">
+          <thead>
+            <tr><th>维度</th><th>Circle</th><th>Tether</th><th>Ripple</th><th>Paxos</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>核心稳定币</td><td>USDC</td><td>USDT</td><td>RLUSD / BBRL / USDB</td><td>PYUSD / USDP / USDG</td></tr>
+            <tr><td>监管覆盖</td><td>OCC + MiCA</td><td>多司法辖区分散</td><td>PSAV 申请中</td><td>OCC + MiCA + MAS</td></tr>
+            <tr><td>巴西落地模式</td><td>通过银行及支付合作伙伴 (BTG、Nubank、Matera、Trace、Santander、Nium 等) 实现机构与零售端分发</td><td>通过 SmartPay 等本地编排器打通 Pix 零售通道和 ATM 现金出口</td><td>通过银行及交易所网络 (Banco Rendimento、Braza、MB 等) 构建机构级跨境结算桥</td><td>通过 PicPay 等本地钱包合作进入消费者端，并提供白标发行能力</td></tr>
+            <tr><td>卡组织结算接入</td><td>Visa + Mastercard</td><td>Visa (MoonPay) + Mastercard</td><td>Mastercard (XRPL 试点) + Visa (crypto card)</td><td>Visa + Mastercard (Global Dollar Network)</td></tr>
+            <tr><td>生态独特定位</td><td>USDC 巴西分销网络覆盖最广</td><td>USDT-Pix 现金闭环最深</td><td>银行级跨境法币-稳定币桥</td><td>为其他品牌发行稳定币的底层基础设施</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <nav class="page-tabs" aria-label="Subpages">
+      <button id="pageGraph" class="active" type="button">Graph</button>
+      <button id="pageNodes" type="button">Node Table</button>
+    </nav>
+
+    <aside id="graphFilters">
+      <section class="panel-section">
+        <p class="section-title">Search</p>
+        <input class="search" id="search" type="search" placeholder="Company, role, note..." />
+      </section>
+
+      <section class="panel-section">
+        <p class="section-title">Node Class</p>
+        <div class="filter-list" id="classFilters"></div>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-title"><button class="section-link" type="button" data-jump="role">Role</button></p>
+        <div class="filter-list" id="roleFilters"></div>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-title"><button class="section-link" type="button" data-jump="relationship">Relationship</button></p>
+        <div class="filter-list" id="edgeFilters"></div>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-title"><button class="section-link" type="button" data-jump="license">License</button></p>
+        <div class="filter-list" id="licenseFilters"></div>
+      </section>
+
+      <section class="panel-section">
+        <p class="section-title"><button class="section-link" type="button" data-jump="pix">PIX</button></p>
+        <div class="filter-list" id="pixFilters"></div>
+      </section>
+    </aside>
+
+    <main id="graphMain">
+      <section class="graph-info" id="relationshipSection">
+        <h2 class="block-title">Relationship</h2>
+        <p>Relationship 描述节点之间公开可验证的连接类型。按关系类型、关联稳定币、证据来源及深度等级组织边表，并从三个种子节点向外扩展。用于呈现真实商业链路，揭示哪些桥节点串联起多个生态角色，以及稳定币在巴西落地的实际路径。</p>
+        <table class="mini-table" aria-label="Relationship type legend">
+          <thead>
+            <tr><th>Type</th><th>Use in graph</th></tr>
+          </thead>
+          <tbody id="relationshipLegend"></tbody>
+        </table>
+      </section>
+
+      <nav class="graph-view-tabs" role="tablist" aria-label="Graph view">
+        <button id="viewLayered" class="active" type="button">Layered View</button>
+        <button id="viewNetwork" type="button">Network View</button>
+      </nav>
+
+      <section class="canvas-shell">
+        <svg id="graph" role="img" aria-label="Brazil stablecoin ecosystem graph"></svg>
+      </section>
+
+      <section class="edge-dashboard" id="edgeDashboard">
+        <div class="dashboard-head">
+          <div>
+            <h2 class="dashboard-title" id="edgeDashboardTitle">Selected node relationships</h2>
+            <div class="dashboard-muted" id="edgeDashboardHint">Click a node in the graph to inspect its outgoing and incoming relationships.</div>
+          </div>
+        </div>
+        <div class="dashboard-controls">
+          <div class="filter-list" id="directionFilters"></div>
+          <div class="filter-list" id="dashboardEdgeFilters"></div>
+        </div>
+        <div class="table-scroll" id="edgeDashboardTable"></div>
+      </section>
+    </main>
+
+    <aside class="inspector" id="graphInspector">
+      <section class="panel-section" id="detailPanel"></section>
+      <section class="panel-section">
+        <p class="section-title">Highest Degree</p>
+        <div class="degree-list" id="degreeList"></div>
+      </section>
+    </aside>
+
+    <section class="node-page page-hidden" id="nodePage">
+      <div class="node-page-grid">
+        <section class="info-card">
+          <div class="info-tabs" role="tablist" aria-label="Node table notes">
+            <button id="infoRole" class="active" type="button">ROLE</button>
+            <button id="infoLicense" type="button">LICENSE</button>
+            <button id="infoPix" type="button">PIX</button>
+          </div>
+          <div class="info-body" id="infoBody"></div>
+        </section>
+
+        <section class="node-table-card">
+          <nav class="node-view-tabs" role="tablist" aria-label="Node table view">
+            <button id="nodeViewTable" class="active" type="button">Table View</button>
+            <button id="nodeViewBoard" type="button">Board View</button>
+          </nav>
+          <div class="node-table-top compact">
+            <input class="search" id="nodeSearch" type="search" placeholder="Search company, business, notes..." />
+          </div>
+          <div class="table-scroll" id="nodeTableContent"></div>
+          <div class="filter-menu hidden" id="columnFilterMenu"></div>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const nodes = [
+          {
+                "company": "Circle",
+                "nodeClass": "Seed",
+                "role": "Settlement*",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Institutions use Circle for USDC settlement and redemption through local partners.",
+                "stablecoin": "USDC",
+                "notes": "Brazil access depends on local banking, distribution and payment partners.",
+                "website": "https://www.circle.com/"
+          },
+          {
+                "company": "Tether",
+                "nodeClass": "Seed",
+                "role": "Settlement*",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Users access USDT settlement through SmartPay and exchanges.",
+                "stablecoin": "USDT",
+                "notes": "Local Brazil usage is partner-led; SmartPay is the key public USDT-Pix bridge.",
+                "website": "https://tether.to/"
+          },
+          {
+                "company": "Ripple",
+                "nodeClass": "Seed",
+                "role": "Settlement*, Orchestration, Liquidity",
+                "brazilEntity": "Ripple Brasil Sociedade Prestadora de Serviços de Ativo Virtual Ltda.",
+                "license": "PSAV/VASP planned",
+                "pix": "—",
+                "business": "Banks, fintechs and exchanges use Ripple for cross-border settlement and RLUSD distribution.",
+                "stablecoin": "RLUSD, BBRL, USDB",
+                "notes": "Connects Brazilian banks, FX institutions, exchanges and RLUSD distribution.",
+                "website": "https://ripple.com/"
+          },
+          {
+                "company": "Paxos",
+                "nodeClass": "Seed",
+                "role": "Settlement*, Orchestration",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Issuers, wallets and platforms use Paxos to issue, operate and distribute regulated stablecoins.",
+                "stablecoin": "PYUSD, USDP, USDG",
+                "notes": "Issues USDP/USDG, issues PayPal PYUSD, and provides white-label stablecoin infrastructure.",
+                "website": "https://www.paxos.com/"
+          },
+          {
+                "company": "Mastercard",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Settlement, Distribution",
+                "brazilEntity": "Mastercard Brasil Soluções de Pagamento Ltda.",
+                "license": "—",
+                "pix": "—",
+                "business": "Issuers and acquirers use Mastercard to settle card flows with regulated stablecoins.",
+                "stablecoin": "USDC, RLUSD, PYUSD, USDG, USDP",
+                "notes": "Global infra bridge with US/LatAm activation, not Brazil-local stablecoin issuer.",
+                "website": "https://www.mastercard.com/"
+          },
+          {
+                "company": "Visa",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Settlement, Distribution",
+                "brazilEntity": "Visa Conecta Instituição de Pagamento Ltda.",
+                "license": "EMI, ITP",
+                "pix": "indirect",
+                "business": "Issuers, acquirers and fintechs use Visa to connect card networks, Pix-enabled payment initiation and stablecoin settlement.",
+                "stablecoin": "USDC, PYUSD, USDG, EURC",
+                "notes": "Global settlement bridge; BCB Pix list shows Visa Conecta as indirect/in homologation, so operational Pix status should be monitored.",
+                "website": "https://usa.visa.com/"
+          },
+          {
+                "company": "Mercado Bitcoin",
+                "nodeClass": "Critical bridge",
+                "role": "Distribution*, Liquidity, Banking Base, Settlement",
+                "brazilEntity": "Mercado Bitcoin Instituição de Pagamento Ltda.",
+                "license": "EMI",
+                "pix": "indirect",
+                "business": "Brazilian users and institutions use Mercado Bitcoin to trade stablecoins and access tokenized payment rails.",
+                "stablecoin": "USDT, USDC, RLUSD, BRL1, MBRL",
+                "notes": "Core local distribution and liquidity node; connects Ripple, Trace and BRL1.",
+                "website": "https://www.mercadobitcoin.com.br/"
+          },
+          {
+                "company": "Bitso",
+                "nodeClass": "Critical bridge",
+                "role": "Liquidity*, Banking Base, Distribution",
+                "brazilEntity": "Nvio Brasil Bitso Instituição de Pagamento Ltda.",
+                "license": "EMI, Post-paid",
+                "pix": "indirect",
+                "business": "Fintechs and users use Bitso to settle BRL, FX and stablecoin flows across LatAm.",
+                "stablecoin": "USDC, USDT, BRL1",
+                "notes": "LatAm liquidity bridge; connects Circle, Trace and BRL1.",
+                "website": "https://bitso.com/"
+          },
+          {
+                "company": "Coinbase",
+                "nodeClass": "Critical bridge",
+                "role": "Distribution*, Liquidity, Orchestration",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Users and institutions use Coinbase for stablecoin access, liquidity and global payment partnerships.",
+                "stablecoin": "USDC",
+                "notes": "Connects Circle, Matera, Mastercard and Crown across USDC distribution, payments and investment paths.",
+                "website": "https://www.coinbase.com/"
+          },
+          {
+                "company": "AEON",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Distribution",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Wallets and exchanges use AEON to route stablecoin payments into online and offline merchant use cases.",
+                "stablecoin": "USDT, USDC",
+                "notes": "Links KuCoin, Bitget and Matera/Pix QR payment paths across emerging-market stablecoin payment flows.",
+                "website": "https://aeon.xyz/"
+          },
+          {
+                "company": "PayPal",
+                "nodeClass": "Critical bridge",
+                "role": "Distribution*, Orchestration, Settlement",
+                "brazilEntity": "PayPal do Brasil Serviços de Pagamento Ltda.",
+                "license": "Credenciador",
+                "pix": "indirect",
+                "business": "SMBs and consumers use PayPal for merchant acceptance, wallet checkout and PYUSD distribution through global partners.",
+                "stablecoin": "PYUSD",
+                "notes": "Brazil documents support acquiring/Pix integration via partner account rather than direct Pix/EMI status; PYUSD is issued by Paxos.",
+                "website": "https://www.paypal.com/"
+          },
+          {
+                "company": "Ebury",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Liquidity, Settlement",
+                "brazilEntity": "Ebury Banco de Câmbio S.A. (formerly Bexs Banco)",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Companies use Ebury for B2B cross-border payments, FX, local Brazil rails and stablecoin-enabled settlement through its former Bexs/Bexs Pay infrastructure.",
+                "stablecoin": "USDC, USDT",
+                "notes": "Santander-owned cross-border platform; Bexs Banco/Bexs Pay rails are merged into this node, with VASP/stablecoin activity tracked in notes rather than as a separate license.",
+                "website": "https://ebury.com/"
+          },
+          {
+                "company": "Nium",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Distribution, Liquidity",
+                "brazilEntity": "Nium Instituição de Pagamento Ltda.",
+                "license": "EMI",
+                "pix": "direct",
+                "business": "Platforms use Nium for real-time cross-border payouts, Pix-enabled Brazil settlement, card issuance and stablecoin settlement through Circle, Coinbase, Visa and Mastercard paths.",
+                "stablecoin": "USDC, USDT, EURC, PYUSD",
+                "notes": "Brazil payment institution license and BS2 local banking relationship connect global stablecoin settlement to BRL/Pix delivery.",
+                "website": "https://www.nium.com/"
+          },
+          {
+                "company": "BVNK",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Settlement",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "B2B companies use BVNK to receive, convert and settle stablecoin payments through APIs and treasury infrastructure.",
+                "stablecoin": "USDC, USDT, PYUSD, USDG, EURC",
+                "notes": "Mastercard-owned B2B stablecoin infrastructure provider; no verified Brazil local legal entity or payment license.",
+                "website": "https://www.bvnk.com/"
+          },
+          {
+                "company": "SmartPay",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Distribution, Liquidity",
+                "brazilEntity": "SmartPay Serviços Digitais Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Retail users use SmartPay/SWAPX to convert between USDT and BRL through Pix and ATM rails.",
+                "stablecoin": "USDT",
+                "notes": "SWAPX is SmartPay’s product, not a separate node.",
+                "website": "https://smartpay.com.vc/"
+          },
+          {
+                "company": "Trace Finance",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Liquidity, Banking Base",
+                "brazilEntity": "Trace Correspondente Cambial Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Exchanges and PSPs use Trace to automate BRL collections, FX and stablecoin ramps.",
+                "stablecoin": "USDC, USDT",
+                "notes": "B2B orchestration bridge across Circle, Bitso, MB, dLocal, Conduit, OKX and Dfns.",
+                "website": "https://tracefinance.com/"
+          },
+          {
+                "company": "Banco Rendimento",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity, Orchestration",
+                "brazilEntity": "Banco Rendimento S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Crypto PSPs and FX companies use Banco Rendimento for BRL settlement and cross-border payments.",
+                "stablecoin": "BRZ",
+                "notes": "Verified RippleNet and BRZ links.",
+                "website": "https://www.rendimento.com.br/"
+          },
+          {
+                "company": "Celcoin",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Orchestration, Distribution",
+                "brazilEntity": "Celcoin Instituição de Pagamento S.A.",
+                "license": "EMI, ITP",
+                "pix": "direct",
+                "business": "PSPs use Celcoin to access Pix, Open Finance and embedded payment infrastructure.",
+                "stablecoin": "USDT",
+                "notes": "Pix, Open Finance and embedded payment infrastructure provider used by SmartPay.",
+                "website": "https://www.celcoin.com.br/"
+          },
+          {
+                "company": "Binance",
+                "nodeClass": "Critical bridge",
+                "role": "Distribution*, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Retail users use Binance to trade stablecoins and on/off-ramp BRL through partners.",
+                "stablecoin": "USDT, USDC",
+                "notes": "Connected to Circle, Latam Gateway and Sim;paul; large retail distribution.",
+                "website": "https://www.binance.com/"
+          },
+          {
+                "company": "Banco Santander",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity",
+                "brazilEntity": "Banco Santander (Brasil) S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Institutions use Banco Santander for regulated banking, FX and stablecoin-enabled cross-border payment connectivity through Circle and Ebury paths.",
+                "stablecoin": "USDC, EURC",
+                "notes": "Circle Payments Network design/advisory relationship and parent owner of Ebury; strategic banking base rather than a standalone stablecoin issuer.",
+                "website": "https://www.santander.com.br/"
+          },
+          {
+                "company": "BTG Pactual",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Distribution, Liquidity",
+                "brazilEntity": "Banco BTG Pactual S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Retail and institutional clients use BTG to access USDC locally.",
+                "stablecoin": "USDC",
+                "notes": "Circle’s direct USDC distribution bank in Brazil.",
+                "website": "https://www.btgpactual.com/"
+          },
+          {
+                "company": "Nubank",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Banking Base",
+                "brazilEntity": "Nu Pagamentos S.A. - Instituição de Pagamento",
+                "license": "EMI, ITP, Credenciador, Post-paid",
+                "pix": "direct",
+                "business": "Retail users use Nubank to access USDC through Nubank Cripto.",
+                "stablecoin": "USDC",
+                "notes": "Huge retail distribution channel; crypto infra historically supported by Paxos.",
+                "website": "https://nubank.com.br/"
+          },
+          {
+                "company": "EBANX",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution, Banking Base",
+                "brazilEntity": "EBANX Instituição de Pagamentos Ltda.",
+                "license": "EMI",
+                "pix": "direct",
+                "business": "Global merchants use EBANX to accept Pix and stablecoin payments from Brazilian customers.",
+                "stablecoin": "USDC, USDT",
+                "notes": "Circle/Arc ecosystem participant; EBANX docs show USDC/USDT support.",
+                "website": "https://www.ebanx.com/"
+          },
+          {
+                "company": "Latam Gateway",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Orchestration",
+                "brazilEntity": "Latam Gateway IP Ltda.",
+                "license": "EMI",
+                "pix": "indirect",
+                "business": "Binance users use Latam Gateway to deposit and withdraw BRL through Pix.",
+                "stablecoin": "USDT, USDC",
+                "notes": "Binance-specific payment rail; important but not highly connected.",
+                "website": "https://www.latamgateway.com/"
+          },
+          {
+                "company": "Braza Group",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Settlement, Liquidity",
+                "brazilEntity": "Braza Bank S.A. Banco de Câmbio",
+                "license": "Bank",
+                "pix": "—",
+                "business": "Institutions use Braza to access BRL/USD stablecoins backed by a regulated FX bank.",
+                "stablecoin": "BBRL, USDB, RLUSD",
+                "notes": "FX bank + stablecoin issuer; linked to Ripple/XRPL.",
+                "website": "https://braza.com.br/"
+          },
+          {
+                "company": "Foxbit",
+                "nodeClass": "Critical bridge",
+                "role": "Distribution*, Liquidity",
+                "brazilEntity": "Foxbit Serviços Digitais / Grupo Foxbit",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Users trade USDT, USDC, RLUSD and BRL1 on Foxbit.",
+                "stablecoin": "USDT, USDC, RLUSD, BRL1",
+                "notes": "Links Tether, Ripple/RLUSD, BRL1 and Banco Rendimento settlement paths.",
+                "website": "https://foxbit.com.br/"
+          },
+          {
+                "company": "NovaDAX",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity",
+                "brazilEntity": "NovaDAX Brasil Pagamentos Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Users buy and sell USDT against BRL on NovaDAX.",
+                "stablecoin": "USDT",
+                "notes": "Exchange distribution endpoint; no broader bridge role verified.",
+                "website": "https://www.novadax.com.br/"
+          },
+          {
+                "company": "Travelex Bank",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity, Orchestration",
+                "brazilEntity": "Travelex Banco de Câmbio S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Companies use Travelex Bank and Ripple for crypto-enabled cross-border settlement.",
+                "stablecoin": "—",
+                "notes": "Ripple institutional payment partner and FX bank.",
+                "website": "https://www.travelexbank.com.br/"
+          },
+          {
+                "company": "Ripio",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity",
+                "brazilEntity": "Ripio Brasil Sociedade Prestadora de Serviços de Ativos Virtuais Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "LatAm users access RLUSD and crypto liquidity through Ripio.",
+                "stablecoin": "RLUSD",
+                "notes": "Listed by Ripple as early RLUSD supporter in Brazil/LatAm.",
+                "website": "https://www.ripio.com/"
+          },
+          {
+                "company": "OKX",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "OKX uses partners to access LatAm stablecoin liquidity and payment flows.",
+                "stablecoin": "USDC, USDT, RLUSD",
+                "notes": "Connected through Trace and Ripple; not Brazil-local.",
+                "website": "https://www.okx.com/"
+          },
+          {
+                "company": "Transfero",
+                "nodeClass": "Eco player",
+                "role": "Settlement*, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Users and platforms use Transfero/BRZ for BRL-denominated stablecoin settlement.",
+                "stablecoin": "BRZ",
+                "notes": "BRZ issuer; BRZ stays as Transfero attribute, not separate node.",
+                "website": "https://transfero.com/"
+          },
+          {
+                "company": "Bitfinex",
+                "nodeClass": "Eco player",
+                "role": "Liquidity*, Distribution",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Bitfinex users access BRL on/off-ramp through SmartPay/SWAPX.",
+                "stablecoin": "USDT",
+                "notes": "SmartPay/SWAPX liquidity/on-off-ramp partner.",
+                "website": "https://www.bitfinex.com/"
+          },
+          {
+                "company": "Sim;paul Investimentos",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*",
+                "brazilEntity": "Sim;paul Investimentos Corretora de Valores Mobiliários S.A.",
+                "license": "Corretora",
+                "pix": "—",
+                "business": "Binance uses Sim;paul as a regulated local brokerage base.",
+                "stablecoin": "—",
+                "notes": "Binance acquisition path; not a payment institution and not EMI.",
+                "website": "https://www.simpaul.com.br/"
+          },
+          {
+                "company": "Cainvest",
+                "nodeClass": "Eco player",
+                "role": "Liquidity*, Settlement",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "BRL1 consortium members use Cainvest for BRL stablecoin liquidity.",
+                "stablecoin": "BRL1",
+                "notes": "BRL1 consortium member and liquidity participant.",
+                "website": "https://cainvest.com/"
+          },
+          {
+                "company": "Stark Bank",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Orchestration",
+                "brazilEntity": "Stark Bank S.A.",
+                "license": "—",
+                "pix": "direct",
+                "business": "Companies use Stark Bank for fiat accounts, Pix and banking rails.",
+                "stablecoin": "USDT",
+                "notes": "SmartPay banking rails partner.",
+                "website": "https://starkbank.com/"
+          },
+          {
+                "company": "TecBan / Banco24Horas",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Banking Base",
+                "brazilEntity": "Tecnologia Bancária S.A.",
+                "license": "—",
+                "pix": "—",
+                "business": "SmartPay users cash out USDT into BRL through Banco24Horas ATMs.",
+                "stablecoin": "USDT",
+                "notes": "Cash-out endpoint, not a stablecoin-native company.",
+                "website": "https://www.tecban.com.br/"
+          },
+          {
+                "company": "Edge Wallet",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Orchestration",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Edge users access USDT-to-Pix flows through SmartPay/SWAPX.",
+                "stablecoin": "USDT",
+                "notes": "Wallet endpoint connected through SmartPay.",
+                "website": "https://edge.app/"
+          },
+          {
+                "company": "4Pay Finance",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Liquidity, Distribution",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Companies use 4Pay APIs to convert BRL and stablecoins through Pix.",
+                "stablecoin": "USDC",
+                "notes": "Circle Directory node; evidence depth still limited.",
+                "website": "https://4pay.finance/"
+          },
+          {
+                "company": "UnblockPay",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Settlement, Liquidity",
+                "brazilEntity": "Unblock Serviços Digitais Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Companies use UnblockPay to bridge LatAm fiat and stablecoins.",
+                "stablecoin": "USDC",
+                "notes": "Circle Directory node; LatAm fiat-stablecoin bridge.",
+                "website": "https://unblockpay.com/"
+          },
+          {
+                "company": "Lumx",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution",
+                "brazilEntity": "Lumx S.A.",
+                "license": "—",
+                "pix": "—",
+                "business": "Companies use Lumx APIs for blockchain and payment workflows.",
+                "stablecoin": "USDC",
+                "notes": "Circle Directory node; more blockchain API than payment rail.",
+                "website": "https://lumx.io/"
+          },
+          {
+                "company": "Banco Genial",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity, Distribution",
+                "brazilEntity": "Banco Genial S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Institutions access RLUSD and Ripple-linked crypto services through Banco Genial.",
+                "stablecoin": "RLUSD",
+                "notes": "Named by Ripple as early RLUSD supporter in Brazil.",
+                "website": "https://www.bancogenial.com/"
+          },
+          {
+                "company": "Attrus",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution",
+                "brazilEntity": "Attrus IP S.A.",
+                "license": "EMI",
+                "pix": "indirect",
+                "business": "Businesses use Attrus APIs for local financial infrastructure and stablecoin transactions.",
+                "stablecoin": "RLUSD, USDC, USDT",
+                "notes": "Ripple-listed RLUSD supporter; stablecoin API positioning.",
+                "website": "https://attrus.com/"
+          },
+          {
+                "company": "VERT",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Settlement",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Institutions use VERT/XRPL for tokenized asset operations.",
+                "stablecoin": "—",
+                "notes": "Ripple secondary expansion; not core payment rail.",
+                "website": "https://vert-capital.com/"
+          },
+          {
+                "company": "Parfin",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Banking Base",
+                "brazilEntity": "Parfin Digital Assets Ltda.",
+                "license": "—",
+                "pix": "—",
+                "business": "Institutions use Parfin for digital asset custody, tokenization and settlement infrastructure.",
+                "stablecoin": "USDT",
+                "notes": "Tether investment; more institutional infra than payment endpoint.",
+                "website": "https://www.parfin.io/"
+          },
+          {
+                "company": "dLocal",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution",
+                "brazilEntity": "dLocal Brasil Instituição de Pagamento S.A.",
+                "license": "EMI, ITP",
+                "pix": "indirect",
+                "business": "Merchants use dLocal and partners to collect and settle local payments.",
+                "stablecoin": "—",
+                "notes": "Trace reference client; important LatAm merchant payment platform.",
+                "website": "https://www.dlocal.com/"
+          },
+          {
+                "company": "Conduit",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Companies use Conduit to orchestrate cross-border stablecoin and fiat flows.",
+                "stablecoin": "USDC, USDT",
+                "notes": "Trace reference client / partner; relevant to B2B flows.",
+                "website": "https://conduitpay.com/"
+          },
+          {
+                "company": "Dfns",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Fintechs use Dfns wallet infrastructure for stablecoin operations.",
+                "stablecoin": "—",
+                "notes": "Trace wallet infrastructure partner.",
+                "website": "https://www.dfns.co/"
+          },
+          {
+                "company": "Nomad",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Banking Base",
+                "brazilEntity": "Nomad Tecnologia Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Users use Nomad and Ripple Payments for Brazil-US treasury and remittance flows.",
+                "stablecoin": "RLUSD",
+                "notes": "Ripple customer; Brazil-US cross-border stablecoin use case.",
+                "website": "https://www.nomadglobal.com/"
+          },
+          {
+                "company": "ARQ",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Orchestration",
+                "brazilEntity": "Atlas Brasil Instituição de Pagamento Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "ARQ supports Mastercard stablecoin settlement optionality in LatAm.",
+                "stablecoin": "USDC, RLUSD",
+                "notes": "Mastercard LatAm activation node; not Brazil-specific yet.",
+                "website": "https://arq.com/"
+          },
+          {
+                "company": "Nuvei",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution",
+                "brazilEntity": "Nuvei do Brasil Instituição de Pagamento Ltda.",
+                "license": "EMI",
+                "pix": "indirect",
+                "business": "Merchants use Nuvei/Mastercard/Circle rails to receive stablecoin settlement.",
+                "stablecoin": "USDC",
+                "notes": "Mastercard/Circle merchant settlement partner.",
+                "website": "https://www.nuvei.com/"
+          },
+          {
+                "company": "Galax Pay",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Orchestration",
+                "brazilEntity": "Galax Pay Instituição de Pagamentos Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Businesses use Galax Pay for recurring billing and Pix/card collections.",
+                "stablecoin": "—",
+                "notes": "Acquired by Celcoin; payment distribution extension.",
+                "website": "https://www.galaxpay.com.br/"
+          },
+          {
+                "company": "2TM Group",
+                "nodeClass": "Eco player",
+                "role": "Distribution*",
+                "brazilEntity": "2TM Participações S.A.",
+                "license": "—",
+                "pix": "—",
+                "business": "2TM owns Mercado Bitcoin and related digital asset businesses.",
+                "stablecoin": "—",
+                "notes": "Parent group, not an operating payment rail itself.",
+                "website": "https://www.2tm.com.br/"
+          },
+          {
+                "company": "Mynt",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Banking Base",
+                "brazilEntity": "Banco BTG Pactual S.A.",
+                "license": "—",
+                "pix": "direct",
+                "business": "BTG clients use Mynt to access crypto products.",
+                "stablecoin": "USDC",
+                "notes": "BTG-owned crypto platform.",
+                "website": "https://www.mynt.com.br/"
+          },
+          {
+                "company": "Crown",
+                "nodeClass": "Eco player",
+                "role": "Settlement*, Liquidity, Orchestration",
+                "brazilEntity": "—",
+                "license": "PSAV/VASP planned",
+                "pix": "—",
+                "business": "Institutions use Crown/BRLV for BRL-denominated stablecoin settlement.",
+                "stablecoin": "BRLV",
+                "notes": "BRLV issuer backed by Brazilian government bond reserves; investor links include Nubank cofounder, Coinbase and Paxos.",
+                "website": "https://www.crown-brlv.com/"
+          },
+          {
+                "company": "Avenia",
+                "nodeClass": "Eco player",
+                "role": "Settlement*, Orchestration, Liquidity",
+                "brazilEntity": "BRLA Digital LTDA",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Users and platforms use Avenia/BRLA for BRL stablecoin settlement and LatAm treasury flows.",
+                "stablecoin": "BRLA",
+                "notes": "BRLA issuer; BRLA Digital is a foreign exchange banking correspondent of Ouribank.",
+                "website": "https://avenia.io/brla"
+          },
+          {
+                "company": "KuCoin",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity, Orchestration",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Users use KuCoin for exchange liquidity and crypto payment access through AEON.",
+                "stablecoin": "USDT, USDC",
+                "notes": "Group-level node; product names such as Pay are collapsed into KuCoin.",
+                "website": "https://www.kucoin.com/"
+          },
+          {
+                "company": "Bitget",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity, Orchestration",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Users use Bitget for exchange/wallet distribution and stablecoin payment access through AEON and Mastercard-linked card rails.",
+                "stablecoin": "USDT, USDC",
+                "notes": "Group-level node; wallet/pay product names are collapsed into Bitget.",
+                "website": "https://www.bitget.com/"
+          },
+          {
+                "company": "Ouribank",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity",
+                "brazilEntity": "Ouribank S.A. Banco Múltiplo",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Avenia uses Ouribank as the regulated banking correspondent base for BRLA operations.",
+                "stablecoin": "BRLA",
+                "notes": "Brazil banking base connected to Avenia/BRLA.",
+                "website": "https://www.ouribank.com/"
+          },
+          {
+                "company": "Liqi",
+                "nodeClass": "Eco player",
+                "role": "Settlement*, Orchestration",
+                "brazilEntity": "Liqi Digital Assets",
+                "license": "—",
+                "pix": "—",
+                "business": "Institutions use Liqi/BRLD for tokenized finance settlement and corporate treasury operations.",
+                "stablecoin": "BRLD",
+                "notes": "BRLD issuer; relevant as institutional settlement infrastructure even though less payment-distribution oriented.",
+                "website": "https://liqi.com.br/nossa-stablecoin"
+          },
+          {
+                "company": "PicPay",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Banking Base, Orchestration",
+                "brazilEntity": "PicPay Instituição de Pagamento S.A.",
+                "license": "EMI, ITP",
+                "pix": "direct",
+                "business": "Retail users and merchants use PicPay for wallet payments, Pix transfers, bill payments and QR-code merchant acceptance.",
+                "stablecoin": "—",
+                "notes": "Major Brazilian digital wallet and payment app; important consumer endpoint and Pix-capable distribution channel.",
+                "website": "https://picpay.com/"
+          },
+          {
+                "company": "Banco BS2",
+                "nodeClass": "Eco player",
+                "role": "Banking Base*, Liquidity",
+                "brazilEntity": "Banco BS2 S.A.",
+                "license": "Bank",
+                "pix": "direct",
+                "business": "Companies use Banco BS2 for API-first banking, Pix, FX and cross-border settlement infrastructure in Brazil.",
+                "stablecoin": "—",
+                "notes": "Local banking and FX base for Nium; potential Latam Gateway/Binance relevance should remain evidence-gated.",
+                "website": "https://www.bancobs2.com.br/"
+          },
+          {
+                "company": "Thunes",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Distribution, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "indirect",
+                "business": "Payment platforms use Thunes to extend cross-border payouts into local payment methods including Brazil real-time Pix rails.",
+                "stablecoin": "—",
+                "notes": "Ebury/Bexs external payment-network extension; relevant as a payout rail, not yet a Brazil stablecoin-native node.",
+                "website": "https://www.thunes.com/"
+          },
+          {
+                "company": "Matera",
+                "nodeClass": "Eco player",
+                "role": "Orchestration*, Banking Base",
+                "brazilEntity": "Matera Systems Informática S.A.",
+                "license": "—",
+                "pix": "—",
+                "business": "Banks use Matera to embed USDC and payment logic into core banking.",
+                "stablecoin": "USDC",
+                "notes": "Software integration node for USDC account/payment enablement.",
+                "website": "https://www.matera.com/"
+          },
+          {
+                "company": "Belo",
+                "nodeClass": "Eco player",
+                "role": "Distribution*, Liquidity, Orchestration",
+                "brazilEntity": "Belo Brasil Instituição de Pagamento Ltda.",
+                "license": "—",
+                "pix": "indirect",
+                "business": "LatAm users use Belo as a crypto wallet for local currency rails, digital dollars, FX and cross-border transfers, including BRL Pix on/off-ramp access.",
+                "stablecoin": "USDC, USDT, BRAt",
+                "notes": "EMI authorization/application status should remain in notes, not License. Tether is a strategic investor; Belo acquired Num Finance and relaunched it as Twin Finance.",
+                "website": "https://belo.co/"
+          },
+          {
+                "company": "Twin Finance",
+                "nodeClass": "Eco player",
+                "role": "Settlement*",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Users and platforms use Twin Finance for LatAm local-currency stablecoin issuance, including BRAt, a Brazilian-real-denominated stablecoin distributed through Belo.",
+                "stablecoin": "BRAt, ARGt, CHLt, BOLt, MEXt, COLt",
+                "notes": "Former Num Finance, acquired by Belo. Reserve assets such as USDC/USDT are tracked in notes rather than treated as direct Circle/Tether relationships.",
+                "website": "https://www.twin.finance/"
+          },
+          {
+                "company": "Checker Finance",
+                "nodeClass": "Critical bridge",
+                "role": "Orchestration*, Liquidity",
+                "brazilEntity": "—",
+                "license": "—",
+                "pix": "—",
+                "business": "Financial institutions use Checker Finance as a B2B stablecoin liquidity and API network for global liquidity pools, fiat ramps and cross-border payment rails.",
+                "stablecoin": "USDC, USDT, USDP, PYUSD",
+                "notes": "Checker reports 50+ providers, 100+ countries and over $3B processed. Network map links include Belo, Braza, Circle, Bitso, Transfero, EBANX, Ripio, Conduit and Rail/Ripple.",
+                "website": "https://www.checker.finance/"
+          }
+    ];
+
+    const edges = [
+          {
+                "id": "e001",
+                "from": "Circle",
+                "to": "BTG Pactual",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle",
+                "evidenceUrl": "https://www.circle.com/pressroom/circle-launches-in-brazil-to-catalyze-digital-dollar-access",
+                "notes": "USDC direct distribution in Brazil."
+          },
+          {
+                "id": "e002",
+                "from": "Circle",
+                "to": "Nubank",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Nubank",
+                "evidenceUrl": "https://international.nubank.com.br/consumers/nubank-partners-with-circle-to-offer-experiences-with-digital-dollars/",
+                "notes": "Nubank Cripto USDC access."
+          },
+          {
+                "id": "e003",
+                "from": "Circle",
+                "to": "Matera",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Matera",
+                "evidenceUrl": "https://www.matera.com/en/press/businesswire-matera-circle-join-forces/",
+                "notes": "USDC core banking integration."
+          },
+          {
+                "id": "e004",
+                "from": "Circle",
+                "to": "Trace Finance",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Directory",
+                "evidenceUrl": "https://partners.circle.com/partner/trace-finance",
+                "notes": "Trace appears in Circle partner directory."
+          },
+          {
+                "id": "e005",
+                "from": "Circle",
+                "to": "Bitso",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Directory",
+                "evidenceUrl": "https://partners.circle.com/partner/bitso-business",
+                "notes": "Bitso Business appears in Circle directory."
+          },
+          {
+                "id": "e006",
+                "from": "Circle",
+                "to": "Binance",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle",
+                "evidenceUrl": "https://www.circle.com/pressroom/circle-and-binance-enter-into-a-strategic-partnership-that-will-accelerate-global-usdc-and-crypto-adoption",
+                "notes": "Global USDC adoption partnership."
+          },
+          {
+                "id": "e007",
+                "from": "Circle",
+                "to": "EBANX",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Arc",
+                "evidenceUrl": "https://www.circle.com/en/pressroom/circle-launches-arc-public-testnet",
+                "notes": "Circle Arc participant; EBANX supports USDC payments."
+          },
+          {
+                "id": "e008",
+                "from": "Circle",
+                "to": "4Pay Finance",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Brazil partners",
+                "evidenceUrl": "https://partners.circle.com/?f_country=brazil",
+                "notes": "Pix-stablecoin PSP in Circle directory."
+          },
+          {
+                "id": "e009",
+                "from": "Circle",
+                "to": "UnblockPay",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Brazil partners",
+                "evidenceUrl": "https://partners.circle.com/?f_country=brazil",
+                "notes": "LatAm fiat-stablecoin bridge."
+          },
+          {
+                "id": "e010",
+                "from": "Circle",
+                "to": "Lumx",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Circle Brazil partners",
+                "evidenceUrl": "https://partners.circle.com/?f_country=brazil",
+                "notes": "Blockchain payment/API provider."
+          },
+          {
+                "id": "e011",
+                "from": "Circle",
+                "to": "Ripple",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-and-circle-launch-usdc-on-the-xrp-ledger",
+                "notes": "USDC launched on XRPL; Ripple intends to use USDC alongside RLUSD."
+          },
+          {
+                "id": "e012",
+                "from": "Mastercard",
+                "to": "Circle",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/global/en/news-and-trends/press/2026/june/mastercard-expands-settlement-capabilities-to-include-stablecoin.html",
+                "notes": "Mastercard stablecoin settlement supports USDC."
+          },
+          {
+                "id": "e013",
+                "from": "Tether",
+                "to": "SmartPay",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDT",
+                "evidence": "Tether",
+                "evidenceUrl": "https://tether.io/news/tether-usdt-available-in-over-24000-atms-across-brazil-on-3-november/",
+                "notes": "USDT-Pix/ATM bridge in Brazil."
+          },
+          {
+                "id": "e014",
+                "from": "Tether",
+                "to": "Parfin",
+                "edgeType": "investor",
+                "level": 1,
+                "stablecoin": "USDT",
+                "evidence": "Tether",
+                "evidenceUrl": "https://tether.io/news/tether-invests-in-parfin-to-accelerate-institutional-use-cases-of-digital-assets-in-latam/",
+                "notes": "Institutional digital asset infra investment."
+          },
+          {
+                "id": "e015",
+                "from": "Tether",
+                "to": "Foxbit",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDT",
+                "evidence": "Foxbit",
+                "evidenceUrl": "https://foxbit.com.br/grafico-tether-usdt/",
+                "notes": "USDT listing."
+          },
+          {
+                "id": "e016",
+                "from": "Tether",
+                "to": "NovaDAX",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDT",
+                "evidence": "NovaDAX",
+                "evidenceUrl": "https://www.novadax.com.br/en-US/criptomoedas",
+                "notes": "USDT listing."
+          },
+          {
+                "id": "e017",
+                "from": "Ripple",
+                "to": "Mercado Bitcoin",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-and-mercado-bitcoin-partner-to-transform-crypto-enabled-cross-border-payments-in-brazil/",
+                "notes": "Mercado Bitcoin is Ripple Payments’ first Brazil customer."
+          },
+          {
+                "id": "e018",
+                "from": "Ripple",
+                "to": "Banco Rendimento",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "—",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripplenet-cloud-reaches-new-milestone-signs-first-bank-customer/",
+                "notes": "Banco Rendimento is a RippleNet Cloud bank customer."
+          },
+          {
+                "id": "e019",
+                "from": "Ripple",
+                "to": "Braza Group",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "BBRL, USDB, RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/braza-group-announces-launch-of-bbrl-stablecoin-on-the-xrp-ledger/",
+                "notes": "Braza issues BBRL/USDB on XRPL and uses Ripple Payments."
+          },
+          {
+                "id": "e020",
+                "from": "Ripple",
+                "to": "Travelex Bank",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "—",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-launches-crypto-enabled-enterprise-payments-in-brazil-with-travelex-bank/",
+                "notes": "Crypto-enabled cross-border payments."
+          },
+          {
+                "id": "e021",
+                "from": "Ripple",
+                "to": "Foxbit",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-deepens-commitment-to-brazil-with-expanded-payments-offering-growing-customer-momentum-and-vasp-license-application/",
+                "notes": "Foxbit listed among early RLUSD supporters in Brazil."
+          },
+          {
+                "id": "e022",
+                "from": "Ripple",
+                "to": "Banco Genial",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-deepens-commitment-to-brazil-with-expanded-payments-offering-growing-customer-momentum-and-vasp-license-application/",
+                "notes": "Banco Genial listed among RLUSD supporters."
+          },
+          {
+                "id": "e023",
+                "from": "Ripple",
+                "to": "Ripio",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-deepens-commitment-to-brazil-with-expanded-payments-offering-growing-customer-momentum-and-vasp-license-application/",
+                "notes": "Ripio listed among RLUSD supporters."
+          },
+          {
+                "id": "e024",
+                "from": "Ripple",
+                "to": "Attrus",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-deepens-commitment-to-brazil-with-expanded-payments-offering-growing-customer-momentum-and-vasp-license-application/",
+                "notes": "Attrus listed among RLUSD supporters."
+          },
+          {
+                "id": "e025",
+                "from": "Ripple",
+                "to": "Nomad",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/ripple-press/ripple-deepens-commitment-to-brazil-with-expanded-payments-offering-growing-customer-momentum-and-vasp-license-application/",
+                "notes": "Nomad uses Ripple Payments and stablecoin settlement for Brazil-US flows."
+          },
+          {
+                "id": "e026",
+                "from": "Ripple",
+                "to": "OKX",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "BusinessWire",
+                "evidenceUrl": "https://www.businesswire.com/news/home/20260429310890/en/Ripple-and-OKX-Partner-to-Expand-RLUSD-Access-and-Global-Liquidity",
+                "notes": "RLUSD access and liquidity partnership; global, not Brazil-specific."
+          },
+          {
+                "id": "e027",
+                "from": "Ripple",
+                "to": "VERT",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "—",
+                "evidence": "Ripple",
+                "evidenceUrl": "https://ripple.com/insights/vert-expands-tokenized-operations-on-xrpl/",
+                "notes": "Tokenized operations on XRPL."
+          },
+          {
+                "id": "e028",
+                "from": "Mastercard",
+                "to": "Ripple",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "RLUSD",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/global/en/news-and-trends/press/2026/june/mastercard-expands-settlement-capabilities-to-include-stablecoin.html",
+                "notes": "Mastercard stablecoin settlement supports RLUSD."
+          },
+          {
+                "id": "e029",
+                "from": "Banco Rendimento",
+                "to": "Transfero",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRZ",
+                "evidence": "Transfero",
+                "evidenceUrl": "https://transfero.com/stablecoins/brz/",
+                "notes": "BRZ banking / reserve base via Banco Rendimento."
+          },
+          {
+                "id": "e030",
+                "from": "SmartPay",
+                "to": "Celcoin",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT",
+                "evidence": "SmartPay",
+                "evidenceUrl": "https://smartpay.com.vc/parceiros/",
+                "notes": "Pix / Open Finance rail."
+          },
+          {
+                "id": "e031",
+                "from": "SmartPay",
+                "to": "Stark Bank",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT",
+                "evidence": "SmartPay",
+                "evidenceUrl": "https://smartpay.com.vc/parceiros/",
+                "notes": "Banking rail."
+          },
+          {
+                "id": "e032",
+                "from": "SmartPay",
+                "to": "TecBan / Banco24Horas",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT",
+                "evidence": "TecBan",
+                "evidenceUrl": "https://www.tecban.com.br/release/clientes-da-tether-podem-realizar-saques-no-banco24horas",
+                "notes": "ATM cash-out."
+          },
+          {
+                "id": "e033",
+                "from": "SmartPay",
+                "to": "Edge Wallet",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDT",
+                "evidence": "SmartPay",
+                "evidenceUrl": "https://smartpay.com.vc/parceiros/",
+                "notes": "SWAPX wallet integration endpoint."
+          },
+          {
+                "id": "e034",
+                "from": "SmartPay",
+                "to": "Bitfinex",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT",
+                "evidence": "Bitfinex",
+                "evidenceUrl": "https://blog.bitfinex.com/media-releases/bitfinex-connects-to-smartpay-via-swapix-for-brazilian-real-brl-on-and-off-ramp/",
+                "notes": "BRL on/off-ramp through SmartPay/SWAPX."
+          },
+          {
+                "id": "e035",
+                "from": "Trace Finance",
+                "to": "Bitso",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Trace",
+                "evidenceUrl": "https://tracefinance.com/",
+                "notes": "Reference client."
+          },
+          {
+                "id": "e036",
+                "from": "Trace Finance",
+                "to": "Mercado Bitcoin",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Trace",
+                "evidenceUrl": "https://tracefinance.com/",
+                "notes": "Reference client."
+          },
+          {
+                "id": "e037",
+                "from": "Trace Finance",
+                "to": "dLocal",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Trace",
+                "evidenceUrl": "https://tracefinance.com/",
+                "notes": "Payments platform reference client."
+          },
+          {
+                "id": "e038",
+                "from": "Trace Finance",
+                "to": "Conduit",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Trace",
+                "evidenceUrl": "https://tracefinance.com/",
+                "notes": "Cross-border orchestration client/reference."
+          },
+          {
+                "id": "e039",
+                "from": "Trace Finance",
+                "to": "OKX",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Trace",
+                "evidenceUrl": "https://tracefinance.com/",
+                "notes": "Exchange client/reference."
+          },
+          {
+                "id": "e040",
+                "from": "Trace Finance",
+                "to": "Dfns",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Dfns",
+                "evidenceUrl": "https://www.dfns.co/article/announcing-trace-finance",
+                "notes": "Wallet infrastructure for Trace operations."
+          },
+          {
+                "id": "e041",
+                "from": "Celcoin",
+                "to": "Galax Pay",
+                "edgeType": "ownership",
+                "level": 3,
+                "stablecoin": "—",
+                "evidence": "Celcoin",
+                "evidenceUrl": "https://www.celcoin.com.br/news/celcoin-adquire-startup-galax-pay/",
+                "notes": "Celcoin acquired Galax Pay."
+          },
+          {
+                "id": "e042",
+                "from": "Mastercard",
+                "to": "ARQ",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC, RLUSD",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/global/en/news-and-trends/press/2026/june/mastercard-expands-settlement-capabilities-to-include-stablecoin.html",
+                "notes": "Stablecoin settlement optionality in US/LatAm."
+          },
+          {
+                "id": "e043",
+                "from": "Mastercard",
+                "to": "Nuvei",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/news/press/2025/april/mastercard-unveils-end-to-end-capabilities-to-power-stablecoin-transactions-from-wallets-to-checkouts",
+                "notes": "Merchant settlement with Nuvei and Circle."
+          },
+          {
+                "id": "e044",
+                "from": "Paxos",
+                "to": "Mastercard",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "PYUSD, USDG, USDP",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/us/en/news-and-trends/stories/2025/mastercard-stablecoin-utility-and-scale.html",
+                "notes": "Mastercard joins Paxos Global Dollar Network."
+          },
+          {
+                "id": "e045",
+                "from": "Binance",
+                "to": "Latam Gateway",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT, USDC",
+                "evidence": "Latam Gateway docs",
+                "evidenceUrl": "https://binance-docs.latamgateway.com/p2p/pix/",
+                "notes": "BRL Pix on/off-ramp for Binance."
+          },
+          {
+                "id": "e046",
+                "from": "Binance",
+                "to": "Sim;paul Investimentos",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Binance",
+                "evidenceUrl": "https://www.prnewswire.com/news-releases/binance-signs-memorandum-of-understanding-to-explore-acquisition-of-simpaul-investimentos-in-brazil-301501789.html",
+                "notes": "Brazilian regulated brokerage acquisition path."
+          },
+          {
+                "id": "e047",
+                "from": "2TM Group",
+                "to": "Mercado Bitcoin",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "2TM",
+                "evidenceUrl": "https://www.2tm.com.br/",
+                "notes": "2TM is Mercado Bitcoin’s parent group."
+          },
+          {
+                "id": "e048",
+                "from": "Mercado Bitcoin",
+                "to": "Cainvest",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRL1",
+                "evidence": "BRL1",
+                "evidenceUrl": "https://brl1.io/",
+                "notes": "BRL1 consortium."
+          },
+          {
+                "id": "e049",
+                "from": "Mercado Bitcoin",
+                "to": "Foxbit",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRL1",
+                "evidence": "Foxbit",
+                "evidenceUrl": "https://foxbit.com.br/blog/brl1-o-que-e/",
+                "notes": "BRL1 consortium."
+          },
+          {
+                "id": "e050",
+                "from": "Mercado Bitcoin",
+                "to": "Bitso",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRL1",
+                "evidence": "BRL1",
+                "evidenceUrl": "https://brl1.io/",
+                "notes": "BRL1 seed-to-seed consortium relationship."
+          },
+          {
+                "id": "e051",
+                "from": "Bitso",
+                "to": "Cainvest",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRL1",
+                "evidence": "BRL1",
+                "evidenceUrl": "https://brl1.io/",
+                "notes": "BRL1 consortium."
+          },
+          {
+                "id": "e052",
+                "from": "Bitso",
+                "to": "Foxbit",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRL1",
+                "evidence": "Bitso",
+                "evidenceUrl": "https://support.bitso.com/hc/en-us/articles/35655996377108-What-is-BRL1",
+                "notes": "BRL1 consortium."
+          },
+          {
+                "id": "e053",
+                "from": "Nubank",
+                "to": "Paxos",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC",
+                "evidence": "Paxos",
+                "evidenceUrl": "https://www.paxos.com/newsroom/nubank-enters-crypto-trading-with-simple-and-safe-in-app-experience-that-will-democratize-access",
+                "notes": "Paxos provides crypto brokerage and custody infrastructure for Nubank Cripto."
+          },
+          {
+                "id": "e054",
+                "from": "BTG Pactual",
+                "to": "Mynt",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "BTG/Mynt",
+                "evidenceUrl": "https://www.btgpactual.com/investimentos/mynt",
+                "notes": "Mynt is BTG’s crypto platform."
+          },
+          {
+                "id": "e055",
+                "from": "Nubank",
+                "to": "Crown",
+                "edgeType": "investor",
+                "level": 2,
+                "stablecoin": "BRLV",
+                "evidence": "Crown",
+                "evidenceUrl": "https://www.crown-brlv.com/",
+                "notes": "Investor link to Crown / BRLV."
+          },
+          {
+                "id": "e056",
+                "from": "Paxos",
+                "to": "Crown",
+                "edgeType": "investor",
+                "level": 2,
+                "stablecoin": "BRLV",
+                "evidence": "Crown",
+                "evidenceUrl": "https://www.crown-brlv.com/",
+                "notes": "Investor link to Crown / BRLV."
+          },
+          {
+                "id": "e057",
+                "from": "Coinbase",
+                "to": "Crown",
+                "edgeType": "investor",
+                "level": 1,
+                "stablecoin": "BRLV",
+                "evidence": "Crown",
+                "evidenceUrl": "https://www.crown-brlv.com/",
+                "notes": "Investor link to Crown / BRLV."
+          },
+          {
+                "id": "e058",
+                "from": "Avenia",
+                "to": "Ouribank",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "BRLA",
+                "evidence": "Avenia",
+                "evidenceUrl": "https://avenia.io/brla",
+                "notes": "Ouribank provides banking base for Avenia / BRLA operations."
+          },
+          {
+                "id": "e059",
+                "from": "Coinbase",
+                "to": "Matera",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Matera",
+                "evidenceUrl": "https://www.matera.com/",
+                "notes": "USDC integration partnership between Coinbase and Matera."
+          },
+          {
+                "id": "e060",
+                "from": "Coinbase",
+                "to": "Mastercard",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/global/en/business/issuers/find-card-programs/crypto-card-program.html",
+                "notes": "Mastercard Crypto Partner Program relationship."
+          },
+          {
+                "id": "e061",
+                "from": "Coinbase",
+                "to": "Circle",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Coinbase",
+                "evidenceUrl": "https://www.coinbase.com/",
+                "notes": "Coinbase and Circle partnership around USDC."
+          },
+          {
+                "id": "e062",
+                "from": "AEON",
+                "to": "KuCoin",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT, USDC",
+                "evidence": "AEON",
+                "evidenceUrl": "https://aeon.xyz/",
+                "notes": "KuCoin Pay uses AEON protocol."
+          },
+          {
+                "id": "e063",
+                "from": "AEON",
+                "to": "Bitget",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT, USDC",
+                "evidence": "AEON",
+                "evidenceUrl": "https://aeon.xyz/",
+                "notes": "Bitget Wallet integrates AEON."
+          },
+          {
+                "id": "e064",
+                "from": "AEON",
+                "to": "Matera",
+                "edgeType": "partnership",
+                "level": 3,
+                "stablecoin": "USDT, USDC",
+                "evidence": "AEON",
+                "evidenceUrl": "https://aeon.xyz/",
+                "notes": "Pix QR underlying technology integration with Matera."
+          },
+          {
+                "id": "e065",
+                "from": "KuCoin",
+                "to": "AEON",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT, USDC",
+                "evidence": "KuCoin",
+                "evidenceUrl": "https://www.kucoin.com/",
+                "notes": "KuCoin Pay relationship with AEON."
+          },
+          {
+                "id": "e066",
+                "from": "Bitget",
+                "to": "AEON",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDT, USDC",
+                "evidence": "Bitget",
+                "evidenceUrl": "https://www.bitget.com/",
+                "notes": "Bitget Wallet relationship with AEON."
+          },
+          {
+                "id": "e068",
+                "from": "Ouribank",
+                "to": "Nomad",
+                "edgeType": "partnership",
+                "level": 3,
+                "stablecoin": "—",
+                "evidence": "Ouribank",
+                "evidenceUrl": "https://www.ouribank.com/",
+                "notes": "Ouribank banking base relationship with Nomad."
+          },
+          {
+                "id": "e069",
+                "from": "Paxos",
+                "to": "PicPay",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDP",
+                "evidence": "PicPay",
+                "evidenceUrl": "https://picpay.com/",
+                "notes": "PicPay crypto access partnership with Paxos / USDP."
+          },
+          {
+                "id": "e070",
+                "from": "PayPal",
+                "to": "Paxos",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "PYUSD",
+                "evidence": "PayPal",
+                "evidenceUrl": "https://newsroom.paypal-corp.com/2023-08-07-PayPal-Launches-U-S-Dollar-Stablecoin",
+                "notes": "PYUSD is issued by Paxos for PayPal."
+          },
+          {
+                "id": "e071",
+                "from": "PayPal",
+                "to": "Mastercard",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "PYUSD",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/us/en/news-and-trends/stories/2025/mastercard-stablecoin-utility-and-scale.html",
+                "notes": "PYUSD appears in Mastercard stablecoin settlement network through Paxos-issued infrastructure."
+          },
+          {
+                "id": "e072",
+                "from": "PayPal",
+                "to": "Coinbase",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "PYUSD",
+                "evidence": "PayPal",
+                "evidenceUrl": "https://investor.pypl.com/news-and-events/news-details/2025/PayPal-and-Coinbase-Expand-Partnership-to-Drive-Innovation-of-Stablecoin-based-Solutions/default.aspx",
+                "notes": "PayPal and Coinbase partnership around PYUSD access and distribution."
+          },
+          {
+                "id": "e073",
+                "from": "Visa",
+                "to": "PicPay",
+                "edgeType": "partnership",
+                "level": 3,
+                "stablecoin": "—",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/",
+                "notes": "Visa wallet/card network relationship provides consumer payment landing through PicPay in Brazil/LatAm."
+          },
+          {
+                "id": "e074",
+                "from": "Visa",
+                "to": "Nubank",
+                "edgeType": "partnership",
+                "level": 3,
+                "stablecoin": "—",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/",
+                "notes": "Visa network relationship with Nubank card issuing and consumer payment rails."
+          },
+          {
+                "id": "e075",
+                "from": "Visa",
+                "to": "Circle",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/solutions/crypto.html",
+                "notes": "Visa stablecoin settlement relationship with Circle / USDC."
+          },
+          {
+                "id": "e076",
+                "from": "Visa",
+                "to": "Paxos",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "PYUSD, USDG",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/solutions/crypto.html",
+                "notes": "Visa supports Paxos-issued stablecoins in settlement paths."
+          },
+          {
+                "id": "e077",
+                "from": "Visa",
+                "to": "Coinbase",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/solutions/crypto.html",
+                "notes": "Visa USDC settlement expands Coinbase-linked USDC distribution paths through Circle/Coinbase ecosystem."
+          },
+          {
+                "id": "e078",
+                "from": "Visa",
+                "to": "Ripple",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "RLUSD",
+                "evidence": "Alchemy Pay",
+                "evidenceUrl": "https://alchemypay.org/",
+                "notes": "RLUSD access through Alchemy Pay fiat on-ramp payment methods including Visa rails."
+          },
+          {
+                "id": "e079",
+                "from": "PayPal",
+                "to": "Visa",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "PYUSD",
+                "evidence": "Visa",
+                "evidenceUrl": "https://usa.visa.com/solutions/crypto.html",
+                "notes": "Issuer-settlement network relationship through Paxos-issued PYUSD."
+          },
+          {
+                "id": "e080",
+                "from": "Circle",
+                "to": "Banco Santander",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC, EURC",
+                "evidence": "Circle Payments Network",
+                "evidenceUrl": "https://www.circle.com/circle-payments-network",
+                "notes": "Banco Santander is tracked as a Circle Payments Network design/advisory banking participant."
+          },
+          {
+                "id": "e081",
+                "from": "Banco Santander",
+                "to": "Ebury",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Ebury",
+                "evidenceUrl": "https://ebury.com/",
+                "notes": "Santander is Ebury’s parent/majority owner and strategic banking sponsor."
+          },
+          {
+                "id": "e082",
+                "from": "Ebury",
+                "to": "Nium",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Nium",
+                "evidenceUrl": "https://www.nium.com/newsroom/ebury-expands-partnership-with-nium",
+                "notes": "Ebury and Nium expanded their cross-border payments relationship, adding a route between Ebury’s Brazil/FX base and Nium’s global payout rails."
+          },
+          {
+                "id": "e083",
+                "from": "Ebury",
+                "to": "dLocal",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "dLocal",
+                "evidenceUrl": "https://www.dlocal.com/blog/dlocal-and-ebury-announce-strategic-partnership",
+                "notes": "Strategic partnership for emerging-market payments; relevant as an Ebury ecosystem extension but not Brazil-specific stablecoin evidence."
+          },
+          {
+                "id": "e084",
+                "from": "BVNK",
+                "to": "Ebury",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "BVNK",
+                "evidenceUrl": "https://www.bvnk.com/",
+                "notes": "Ebury is treated as a BVNK embedded stablecoin payments client/reference path."
+          },
+          {
+                "id": "e085",
+                "from": "Ebury",
+                "to": "Nubank",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Ebury / Bexs",
+                "evidenceUrl": "https://ebury.com/",
+                "notes": "Nubank cross-border payment relationship is retained under Ebury via former Bexs/Bexs Pay rails."
+          },
+          {
+                "id": "e086",
+                "from": "Ebury",
+                "to": "Thunes",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Thunes / Bexs",
+                "evidenceUrl": "https://www.thunes.com/",
+                "notes": "Former Bexs relationship extends Ebury Brazil rails into Thunes real-time Pix payment network."
+          },
+          {
+                "id": "e087",
+                "from": "Circle",
+                "to": "Nium",
+                "edgeType": "partnership",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Nium / Circle",
+                "evidenceUrl": "https://www.nium.com/newsroom/nium-circle-usdc-settlement-global-payouts",
+                "notes": "Nium joined Circle Payments Network, connecting USDC settlement to global fiat payout rails."
+          },
+          {
+                "id": "e088",
+                "from": "Nium",
+                "to": "Banco BS2",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Nium",
+                "evidenceUrl": "https://www.nium.com/newsroom/nium-secures-payment-institution-license-brazil",
+                "notes": "Banco BS2 acts as Nium’s BRL correspondent bank and Pix settlement partner in Brazil."
+          },
+          {
+                "id": "e089",
+                "from": "Nium",
+                "to": "Coinbase",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC",
+                "evidence": "Coinbase",
+                "evidenceUrl": "https://www.coinbase.com/blog/coinbase-nium-partnership",
+                "notes": "Coinbase and Nium partner to expand USDC merchant and cross-border payments."
+          },
+          {
+                "id": "e090",
+                "from": "Nium",
+                "to": "Visa",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC, USDT, EURC, PYUSD",
+                "evidence": "Nium",
+                "evidenceUrl": "https://www.nium.com/newsroom/nium-launches-dual-network-stablecoin-card-issuance-platform",
+                "notes": "Nium stablecoin card issuance platform connects stablecoin balances to Visa card rails."
+          },
+          {
+                "id": "e091",
+                "from": "Nium",
+                "to": "Mastercard",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC, USDT, EURC, PYUSD",
+                "evidence": "Nium",
+                "evidenceUrl": "https://www.nium.com/newsroom/nium-launches-dual-network-stablecoin-card-issuance-platform",
+                "notes": "Nium stablecoin card issuance platform connects stablecoin balances to Mastercard card rails."
+          },
+          {
+                "id": "e092",
+                "from": "Mastercard",
+                "to": "BVNK",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Mastercard",
+                "evidenceUrl": "https://www.mastercard.com/news/",
+                "notes": "Mastercard ownership/acquisition path brings BVNK stablecoin payment infrastructure into Mastercard’s network."
+          },
+          {
+                "id": "e093",
+                "from": "BVNK",
+                "to": "Circle",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC",
+                "evidence": "BVNK",
+                "evidenceUrl": "https://www.bvnk.com/",
+                "notes": "BVNK integrates Circle/USDC infrastructure for stablecoin payment operations."
+          },
+          {
+                "id": "e094",
+                "from": "BVNK",
+                "to": "Paxos",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "PYUSD",
+                "evidence": "BVNK",
+                "evidenceUrl": "https://www.bvnk.com/",
+                "notes": "BVNK supports Paxos-issued PYUSD as a settlement option."
+          },
+          {
+                "id": "e095",
+                "from": "Ebury",
+                "to": "EBANX",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Ebury",
+                "evidenceUrl": "https://ebury.com/en-ch/company/press-releases/ebury-announces-strategic-growth-plans-in-brazil",
+                "notes": "EBANX is listed by Ebury as a technology/API client in Brazil growth materials."
+          },
+          {
+                "id": "e096",
+                "from": "Banco BS2",
+                "to": "Latam Gateway",
+                "edgeType": "partnership",
+                "level": 3,
+                "stablecoin": "—",
+                "evidence": "Câmara dos Deputados",
+                "evidenceUrl": "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=2340114&filename=OF+595/2023+CPIPIRAM#1#1",
+                "notes": "Public filing indicates Latam Gateway banking/account relationship with Banco BS2."
+          },
+          {
+                "id": "e097",
+                "from": "Tether",
+                "to": "Belo",
+                "edgeType": "investor",
+                "level": 1,
+                "stablecoin": "—",
+                "evidence": "Belo / Tether coverage",
+                "evidenceUrl": "https://belo.co/",
+                "notes": "Tether strategic investment in Belo."
+          },
+          {
+                "id": "e098",
+                "from": "Belo",
+                "to": "Twin Finance",
+                "edgeType": "ownership",
+                "level": 2,
+                "stablecoin": "BRAt, ARGt, CHLt, BOLt, MEXt, COLt",
+                "evidence": "Twin Finance",
+                "evidenceUrl": "https://www.twin.finance/article/brat-the-brazilian-real-stablecoin-issued-by-twin",
+                "notes": "Belo acquired Num Finance and relaunched it as Twin Finance."
+          },
+          {
+                "id": "e099",
+                "from": "Twin Finance",
+                "to": "Belo",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "BRAt",
+                "evidence": "Twin Finance",
+                "evidenceUrl": "https://www.twin.finance/article/brat-the-brazilian-real-stablecoin-issued-by-twin",
+                "notes": "BRAt is distributed/listed through the Belo app."
+          },
+          {
+                "id": "e100",
+                "from": "Checker Finance",
+                "to": "Belo",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Checker official network map links Belo to Checker liquidity/API infrastructure."
+          },
+          {
+                "id": "e101",
+                "from": "Checker Finance",
+                "to": "Circle",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Checker network map lists Circle; treated as a product/provider connection, not a strategic partnership."
+          },
+          {
+                "id": "e102",
+                "from": "Bitso",
+                "to": "Checker Finance",
+                "edgeType": "investor",
+                "level": 2,
+                "stablecoin": "—",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Bitso is tracked as an investor in Checker Finance."
+          },
+          {
+                "id": "e103",
+                "from": "Checker Finance",
+                "to": "Braza Group",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Braza Bank/Braza Group is collapsed into the existing Braza Group node."
+          },
+          {
+                "id": "e104",
+                "from": "Checker Finance",
+                "to": "Ripple",
+                "edgeType": "client",
+                "level": 1,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Relationship is via Rail, now Ripple-owned; Rail is not added as a separate node."
+          },
+          {
+                "id": "e105",
+                "from": "Checker Finance",
+                "to": "Transfero",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "BRZ",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Transfero/BRZ appears in Checker network context."
+          },
+          {
+                "id": "e106",
+                "from": "Checker Finance",
+                "to": "EBANX",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "EBANX appears in Checker network context."
+          },
+          {
+                "id": "e107",
+                "from": "Checker Finance",
+                "to": "Ripio",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Ripio appears in Checker network context."
+          },
+          {
+                "id": "e108",
+                "from": "Checker Finance",
+                "to": "Conduit",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Checker Finance",
+                "evidenceUrl": "https://x.com/checkercorp/status/1955615458578862186",
+                "notes": "Conduit appears in Checker network context."
+          },
+          {
+                "id": "e109",
+                "from": "Belo",
+                "to": "Mastercard",
+                "edgeType": "partnership",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Belo",
+                "evidenceUrl": "https://belo.co/",
+                "notes": "Belo Mastercard crypto card distribution path."
+          },
+          {
+                "id": "e111",
+                "from": "Belo",
+                "to": "Conduit",
+                "edgeType": "client",
+                "level": 2,
+                "stablecoin": "USDC, USDT",
+                "evidence": "Belo",
+                "evidenceUrl": "https://belo.co/",
+                "notes": "Belo-related stablecoin infrastructure connection."
+          }
+    ];
+
+    const roleColors = {
+      "Settlement": getCss("--settlement"),
+      "Banking Base": getCss("--banking"),
+      "Orchestration": getCss("--orchestration"),
+      "Liquidity": getCss("--liquidity"),
+      "Distribution": getCss("--distribution")
+    };
+
+    const edgeColors = {
+      partnership: getCss("--partnership"),
+      client: getCss("--client"),
+      investor: getCss("--investor"),
+      ownership: getCss("--ownership")
+    };
+
+    const classNames = ["Seed", "Critical bridge", "Eco player"];
+    const roles = ["Settlement", "Banking Base", "Orchestration", "Liquidity", "Distribution"];
+    const edgeTypes = ["partnership", "client", "investor", "ownership"];
+    const pixTypes = ["direct", "indirect", "—"];
+    const directionTypes = ["From", "To"];
+    const relationshipDefs = [
+      {type:"partnership", zh:"官方合作", description:"Co-branded, announced, or jointly positioned integration."},
+      {type:"client", zh:"客户/产品接入", description:"One side uses the other side's product, API, listing, or infrastructure."},
+      {type:"investor", zh:"投资关系", description:"Strategic or financial investment tied to ecosystem expansion."},
+      {type:"ownership", zh:"控股/收购", description:"Parent, subsidiary, acquisition, or owned operating platform."}
+    ];
+    const roleDefs = [
+      {role:"Banking Base", zh:"银行/法币底座", duties:"Holds fiat accounts, connects Pix/banking rails, supports custody, settlement, or local regulated access."},
+      {role:"Liquidity", zh:"流动性与换汇", duties:"Provides BRL-stablecoin liquidity, FX conversion, OTC, exchange books, or treasury movement."},
+      {role:"Orchestration", zh:"支付/资金流编排", duties:"Routes payments, APIs, wallets, Pix flows, stablecoin ramps, and multi-provider settlement logic."},
+      {role:"Settlement", zh:"稳定币结算层", duties:"Issues, redeems, settles, or enables the stablecoin/tokenized money leg."},
+      {role:"Distribution", zh:"用户/商户分发", duties:"Owns retail, merchant, wallet, exchange, card, ATM, or app endpoints."}
+    ];
+    const licenseDefs = [
+      {license:"EMI", color:"#10b981", directPix:"Yes, direct or indirect", holdsFunds:"Yes", role:"On/off-ramp, prepaid account, wallet balance, fiat custody."},
+      {license:"Credenciador", color:"#f43f5e", directPix:"Usually no", holdsFunds:"No", role:"Merchant acquiring and acceptance layer connected through banks/EMIs."},
+      {license:"ITP", color:"#f59e0b", directPix:"Yes, as payment initiator", holdsFunds:"No", role:"Initiates Pix under user authorization; useful for Pix-to-stablecoin flows."},
+      {license:"Post-paid", color:"#6366f1", directPix:"Not applicable", holdsFunds:"Credit exposure", role:"Credit card or post-paid instrument issuance; relevant to crypto cards."},
+      {license:"Bank", color:"#2563eb", directPix:"Yes if direct Pix participant", holdsFunds:"Yes", role:"Settlement account, fiat custody, FX, treasury, and direct Pix access."},
+      {license:"Corretora", color:"#64748b", directPix:"No", holdsFunds:"Client brokerage custody", role:"Regulated brokerage base, securities access, local compliance anchor."},
+      {license:"PSAV/VASP planned", color:"#7c3aed", directPix:"No", holdsFunds:"No", role:"Virtual asset service provider application or planned crypto authorization."}
+    ];
+    const licenseColors = new Map(licenseDefs.map(item => [item.license, item.color]));
+    licenseColors.set("—", "#cbd5e1");
+    const licenseFilterItems = [...licenseDefs.map(item => item.license), "—"];
+    const stablecoinNames = new Set(["ARGt", "BBRL", "BOLt", "BRAt", "BRL1", "BRLA", "BRLD", "BRLV", "BRZ", "CHLt", "COLt", "cEUR", "cUSD", "EURC", "MBRL", "MEXt", "PYUSD", "RLUSD", "USDB", "USDC", "USDG", "USDP", "USDT"]);
+    const stablecoinFilterItems = [...new Set(nodes.flatMap(node => stablecoinTokens(node.stablecoin)).filter(item => item !== "—"))].sort((a, b) => a.localeCompare(b));
+    const entityFilterItems = ["Has Brazil Entity", "—"];
+    const state = {
+      page: "graph",
+      view: "layered",
+      infoTab: "role",
+      nodeView: "table",
+      search: "",
+      nodeSearch: "",
+      classes: new Set(classNames),
+      roles: new Set(roles),
+      edgeTypes: new Set(edgeTypes),
+      graphPix: new Set(pixTypes),
+      graphLicenses: new Set(licenseFilterItems),
+      nodeRoles: new Set(roles),
+      nodeLicenses: new Set(licenseFilterItems),
+      nodePix: new Set(pixTypes),
+      nodeEntities: new Set(entityFilterItems),
+      nodeStablecoins: new Set(stablecoinFilterItems),
+      edgeDirections: new Set(directionTypes),
+      dashboardEdgeTypes: new Set(edgeTypes),
+      selectedNode: null,
+      selectedEdge: null,
+      focusedEdge: null,
+      openColumnFilter: null
+    };
+
+    nodes.forEach(node => {
+      node.mainRole = getMainRole(node.role);
+      node.degree = 0;
+    });
+
+    const nodeByName = new Map(nodes.map(node => [node.company, node]));
+
+    edges.forEach(edge => {
+      if (nodeByName.has(edge.from)) nodeByName.get(edge.from).degree += 1;
+      if (nodeByName.has(edge.to)) nodeByName.get(edge.to).degree += 1;
+    });
+
+    nodes.forEach(node => node.degree = nodeByName.get(node.company).degree);
+
+    buildControls();
+    renderAll();
+
+    function getCss(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function getMainRole(role) {
+      const starred = role.split(",").map(part => part.trim()).find(part => part.includes("*"));
+      return (starred || role.split(",")[0]).replace("*", "").trim();
+    }
+
+    function slug(value) {
+      return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function link(url, label) {
+      if (!url || url === "—") return esc(label || "—");
+      const text = label || url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+      return `<a href="${esc(url)}" target="_blank" rel="noreferrer">${esc(text)}</a>`;
+    }
+
+    function buildControls() {
+      document.getElementById("pageGraph").addEventListener("click", () => setPage("graph"));
+      document.getElementById("pageNodes").addEventListener("click", () => setPage("nodes"));
+      document.getElementById("viewLayered").addEventListener("click", () => setView("layered"));
+      document.getElementById("viewNetwork").addEventListener("click", () => setView("network"));
+      document.getElementById("search").addEventListener("input", event => {
+        state.search = event.target.value.trim().toLowerCase();
+        renderAll();
+      });
+      document.getElementById("nodeSearch").addEventListener("input", event => {
+        state.nodeSearch = event.target.value.trim().toLowerCase();
+        renderNodePage();
+      });
+
+      document.getElementById("infoRole").addEventListener("click", () => setInfoTab("role"));
+      document.getElementById("infoPix").addEventListener("click", () => setInfoTab("pix"));
+      document.getElementById("infoLicense").addEventListener("click", () => setInfoTab("license"));
+      document.getElementById("nodeViewTable").addEventListener("click", () => setNodeView("table"));
+      document.getElementById("nodeViewBoard").addEventListener("click", () => setNodeView("board"));
+      document.querySelectorAll("[data-jump]").forEach(button => {
+        button.addEventListener("click", () => jumpTo(button.dataset.jump));
+      });
+
+      buildCheckboxGroup("classFilters", classNames, state.classes, item => {
+        return `${nodeClassMarker(item)}${item}`;
+      });
+
+      buildCheckboxGroup("roleFilters", roles, state.roles, item => {
+        return `<span class="swatch" style="background:${roleColors[item] || "#94a3b8"}"></span>${item}`;
+      });
+
+      buildCheckboxGroup("edgeFilters", edgeTypes, state.edgeTypes, item => {
+        return `<span class="swatch" style="background:${edgeColors[item]}"></span>${displayEdgeType(item)}`;
+      });
+
+      buildCheckboxGroup("pixFilters", pixTypes, state.graphPix, item => pixLegendItem(item));
+      buildCheckboxGroup("licenseFilters", licenseFilterItems, state.graphLicenses, item => licensePills(item));
+
+      buildCheckboxGroup("directionFilters", directionTypes, state.edgeDirections, item => esc(item));
+      buildCheckboxGroup("dashboardEdgeFilters", edgeTypes, state.dashboardEdgeTypes, item => {
+        return `<span class="swatch" style="background:${edgeColors[item]}"></span>${displayEdgeType(item)}`;
+      });
+
+      renderRelationshipLegend();
+    }
+
+    function buildCheckboxGroup(targetId, items, targetSet, labelRenderer) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = `
+        <div class="filter-actions">
+          <button class="filter-action" type="button" data-filter-action="all">All</button>
+          <button class="filter-action" type="button" data-filter-action="clear">Clear</button>
+        </div>
+        ${items.map(item => `
+        <label class="check">
+          <input type="checkbox" data-value="${esc(item)}" checked />
+          ${labelRenderer(item)}
+        </label>
+      `).join("")}`;
+
+      target.querySelector('[data-filter-action="all"]').addEventListener("click", () => {
+        items.forEach(item => targetSet.add(item));
+        target.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = true);
+        renderAll();
+      });
+      target.querySelector('[data-filter-action="clear"]').addEventListener("click", () => {
+        targetSet.clear();
+        target.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+        renderAll();
+      });
+
+      target.querySelectorAll("input").forEach(input => {
+        input.addEventListener("change", event => {
+          const value = event.target.dataset.value;
+          if (event.target.checked) {
+            targetSet.add(value);
+          } else {
+            targetSet.delete(value);
+          }
+          renderAll();
+        });
+      });
+    }
+
+    function setView(view) {
+      state.view = view;
+      document.getElementById("viewLayered").classList.toggle("active", view === "layered");
+      document.getElementById("viewNetwork").classList.toggle("active", view === "network");
+      renderAll();
+    }
+
+    function setPage(page) {
+      state.page = page;
+      document.getElementById("pageGraph").classList.toggle("active", page === "graph");
+      document.getElementById("pageNodes").classList.toggle("active", page === "nodes");
+      ["graphFilters", "graphMain", "graphInspector"].forEach(id => {
+        document.getElementById(id).classList.toggle("page-hidden", page !== "graph");
+      });
+      document.getElementById("nodePage").classList.toggle("page-hidden", page !== "nodes");
+      renderAll();
+    }
+
+    function setInfoTab(tab) {
+      state.infoTab = tab;
+      document.getElementById("infoRole").classList.toggle("active", tab === "role");
+      document.getElementById("infoPix").classList.toggle("active", tab === "pix");
+      document.getElementById("infoLicense").classList.toggle("active", tab === "license");
+      renderNodeInfo();
+    }
+
+    function setNodeView(view) {
+      state.nodeView = view;
+      document.getElementById("nodeViewTable").classList.toggle("active", view === "table");
+      document.getElementById("nodeViewBoard").classList.toggle("active", view === "board");
+      renderNodePage();
+    }
+
+    function jumpTo(target) {
+      if (target === "relationship") {
+        setPage("graph");
+        requestAnimationFrame(() => document.getElementById("relationshipSection").scrollIntoView({block: "start"}));
+        return;
+      }
+      setPage("nodes");
+      setInfoTab(target);
+      requestAnimationFrame(() => document.getElementById("nodePage").scrollIntoView({block: "start"}));
+    }
+
+    function getVisibleData() {
+      const byText = node => {
+        if (!state.search) return true;
+        const haystack = [
+          node.company, node.nodeClass, node.role, node.brazilEntity, node.license,
+          node.pix, node.business, node.stablecoin, node.notes, node.website
+        ].join(" ").toLowerCase();
+        return haystack.includes(state.search);
+      };
+
+      let visibleNodes = nodes.filter(node =>
+        state.classes.has(node.nodeClass) &&
+        state.roles.has(node.mainRole) &&
+        state.graphPix.has(node.pix) &&
+        licenseTokens(node).some(item => state.graphLicenses.has(item)) &&
+        byText(node)
+      );
+
+      const nodeNames = new Set(visibleNodes.map(node => node.company));
+      let visibleEdges = edges.filter(edge =>
+        nodeNames.has(edge.from) &&
+        nodeNames.has(edge.to) &&
+        state.edgeTypes.has(edge.edgeType)
+      );
+
+      return {visibleNodes, visibleEdges};
+    }
+
+    function renderAll() {
+      const data = getVisibleData();
+      renderStats(data);
+      renderGraph(data);
+      renderDetail(data);
+      renderDegreeList(data);
+      renderEdgeDashboard(data);
+      renderNodePage();
+    }
+
+    function renderStats() {
+      const allNodes = nodes;
+      const allEdges = edges;
+      const nodeCounts = [
+        {value: allNodes.filter(node => node.nodeClass === "Seed").length, label: "Seed", statClass: "node-seed"},
+        {value: allNodes.filter(node => node.nodeClass === "Critical bridge").length, label: "Critical bridge", statClass: "node-bridge"},
+        {value: allNodes.filter(node => node.nodeClass === "Eco player").length, label: "Eco player", statClass: "node-eco"}
+      ];
+      const edgeCounts = edgeTypes.map(type => ({
+        value: allEdges.filter(edge => edge.edgeType === type).length,
+        label: displayEdgeType(type),
+        edgeType: type
+      }));
+      document.getElementById("stats").innerHTML = `
+        <div class="stat-group">
+          <div class="stat-group-title">Nodes · ${allNodes.length}</div>
+          <div class="stat-grid nodes">${nodeCounts.map(statCard).join("")}</div>
+        </div>
+        <div class="stat-group">
+          <div class="stat-group-title">Edges · ${allEdges.length}</div>
+          <div class="stat-grid edges">${edgeCounts.map(statCard).join("")}</div>
+        </div>
+      `;
+    }
+
+    function statCard(item) {
+      const color = item.edgeType ? edgeColors[item.edgeType] : "";
+      const style = item.edgeType ? ` style="border-color:${color};background:${softColor(color)}"` : "";
+      const cls = ["stat", item.statClass || "", item.edgeType ? "edge-stat" : ""].filter(Boolean).join(" ");
+      return `<div class="${cls}"${style}><div class="value">${item.value}</div><div class="label">${esc(item.label)}</div></div>`;
+    }
+
+    function renderGraph(data) {
+      const svg = document.getElementById("graph");
+      const width = Math.max(1050, svg.parentElement.clientWidth);
+      const graphData = state.view === "layered" ? connectedGraphData(data) : data;
+      const maxClassCount = state.view === "layered"
+        ? layeredMaxRows(graphData.visibleNodes)
+        : 1;
+      const height = state.view === "layered"
+        ? Math.max(620, maxClassCount * 54 + 150)
+        : 980;
+
+      svg.setAttribute("height", height);
+      svg.innerHTML = "";
+
+      const positions = state.view === "layered"
+        ? layeredPositions(graphData.visibleNodes, width, height)
+        : networkPositions(graphData.visibleNodes, graphData.visibleEdges, width, height);
+
+      drawLanes(svg, width, height, positions);
+      drawEdges(svg, graphData.visibleEdges, positions);
+      drawNodes(svg, graphData.visibleNodes, positions);
+      const viewBox = positions.mode === "network"
+        ? fittedViewBox(graphData.visibleNodes, positions, width, height)
+        : {x: 0, y: 0, width, height};
+      svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
+    }
+
+    function layeredMaxRows(visibleNodes) {
+      const seedCount = visibleNodes.filter(node => node.nodeClass === "Seed").length;
+      const bridgeCount = visibleNodes.filter(node => node.nodeClass === "Critical bridge").length;
+      const ecoNodes = visibleNodes.filter(node => node.nodeClass === "Eco player");
+      const ecoColumns = [
+        ["Settlement", "Banking Base"],
+        ["Orchestration", "Liquidity"],
+        ["Distribution"]
+      ];
+      const ecoMax = Math.max(...ecoColumns.map(columnRoles => (
+        ecoNodes.filter(node => columnRoles.includes(node.mainRole)).length
+      )), 0);
+      return Math.max(seedCount, bridgeCount, ecoMax, 1);
+    }
+
+    function connectedGraphData(data) {
+      const connected = new Set();
+      data.visibleEdges.forEach(edge => {
+        connected.add(edge.from);
+        connected.add(edge.to);
+      });
+      return {
+        visibleNodes: data.visibleNodes.filter(node => connected.has(node.company)),
+        visibleEdges: data.visibleEdges
+      };
+    }
+
+    function fittedViewBox(visibleNodes, positions, width, height) {
+      if (!visibleNodes.length) return {x: 0, y: 0, width, height};
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
+
+      visibleNodes.forEach(node => {
+        const pos = positions.get(node.company);
+        if (!pos) return;
+        const radius = nodeRadius(node, "network");
+        const labelWidth = Math.min(210, 72 + node.company.length * 6.8);
+        const licenseHeight = licenseSummary(node) ? 34 : 12;
+        const labelLeft = positions.mode === "network" && pos.x < (positions.centerX || width / 2);
+        minX = Math.min(minX, pos.x - radius - (labelLeft ? labelWidth : 28));
+        minY = Math.min(minY, pos.y - radius - 28);
+        maxX = Math.max(maxX, pos.x + radius + (labelLeft ? 28 : labelWidth));
+        maxY = Math.max(maxY, pos.y + radius + licenseHeight);
+      });
+
+      const padding = 46;
+      minX -= padding;
+      minY -= padding;
+      maxX += padding;
+      maxY += padding;
+
+      let boxWidth = Math.max(420, maxX - minX);
+      let boxHeight = Math.max(360, maxY - minY);
+      const aspect = width / height;
+      const boxAspect = boxWidth / boxHeight;
+      const cx = minX + boxWidth / 2;
+      const cy = minY + boxHeight / 2;
+
+      if (boxAspect > aspect) {
+        boxHeight = boxWidth / aspect;
+      } else {
+        boxWidth = boxHeight * aspect;
+      }
+
+      return {
+        x: cx - boxWidth / 2,
+        y: cy - boxHeight / 2,
+        width: boxWidth,
+        height: boxHeight
+      };
+    }
+
+    function layeredPositions(visibleNodes, width, height) {
+      const xByClass = {
+        "Seed": 96,
+        "Critical bridge": Math.round(width * 0.36),
+        "Eco player": Math.round(width * 0.68)
+      };
+      const nodesByClass = new Map(classNames.map(cls => [cls, []]));
+      visibleNodes.forEach(node => nodesByClass.get(node.nodeClass)?.push(node));
+
+      const positions = new Map();
+      const rowLimit = Math.max(8, Math.floor((height - 130) / 54));
+      nodesByClass.forEach((group, cls) => {
+        if (cls === "Eco player") return;
+        group.sort((a, b) => {
+          const roleDiff = roles.indexOf(a.mainRole) - roles.indexOf(b.mainRole);
+          if (roleDiff !== 0) return roleDiff;
+          if (b.degree !== a.degree) return b.degree - a.degree;
+          return a.company.localeCompare(b.company);
+        });
+        const columns = Math.max(1, Math.ceil(group.length / rowLimit));
+        const gap = cls === "Eco player" ? 145 : 118;
+        group.forEach((node, index) => {
+          const col = Math.floor(index / rowLimit);
+          const row = index % rowLimit;
+          positions.set(node.company, {
+            x: xByClass[cls] + (col - (columns - 1) / 2) * gap,
+            y: 86 + row * 54
+          });
+        });
+      });
+      const ecoNodes = nodesByClass.get("Eco player") || [];
+      const ecoColumnRoles = [
+        ["Settlement", "Banking Base"],
+        ["Orchestration", "Liquidity"],
+        ["Distribution"]
+      ];
+      const ecoGap = 165;
+      ecoColumnRoles.forEach((columnRoles, col) => {
+        ecoNodes
+          .filter(node => columnRoles.includes(node.mainRole))
+          .sort((a, b) => {
+            const roleDiff = columnRoles.indexOf(a.mainRole) - columnRoles.indexOf(b.mainRole);
+            if (roleDiff !== 0) return roleDiff;
+            if (b.degree !== a.degree) return b.degree - a.degree;
+            return a.company.localeCompare(b.company);
+          })
+          .forEach((node, row) => {
+            positions.set(node.company, {
+              x: xByClass["Eco player"] + (col - 1) * ecoGap,
+              y: 86 + row * 54
+            });
+          });
+      });
+      positions.laneX = {
+        "Seed": averageClassX(nodesByClass.get("Seed") || [], positions) || xByClass["Seed"],
+        "Critical bridge": xByClass["Critical bridge"],
+        "Eco player": xByClass["Eco player"]
+      };
+      positions.mode = "layered";
+      return positions;
+    }
+
+    function averageClassX(group, positions) {
+      const points = group.map(node => positions.get(node.company)).filter(Boolean);
+      if (!points.length) return null;
+      return points.reduce((sum, point) => sum + point.x, 0) / points.length;
+    }
+
+    function networkPositions(visibleNodes, visibleEdges, width, height) {
+      const positions = new Map();
+      const centerX = width * 0.5;
+      const centerY = height * 0.5;
+      const seedNodes = visibleNodes.filter(node => node.nodeClass === "Seed");
+      const bridgeNodes = visibleNodes.filter(node => node.nodeClass === "Critical bridge");
+      const ecoNodes = visibleNodes.filter(node => node.nodeClass === "Eco player");
+
+      placeRing(seedNodes, centerX - 120, centerY - 72, 165, -Math.PI / 2, positions);
+      placeRing(bridgeNodes, centerX + 18, centerY + 6, Math.min(width * 0.32, 430), -Math.PI * 0.86, positions);
+      placeRing(ecoNodes, centerX + 42, centerY + 20, Math.min(width * 0.49, 720), -Math.PI * 0.98, positions);
+      relaxNetwork(visibleNodes, visibleEdges, positions, width, height);
+      placeBetween(positions, "Crown", "Mastercard", "PayPal");
+      separateNetworkNodes(visibleNodes, positions, width, height);
+      positions.labelHints = networkLabelHints(visibleNodes, positions, width, height, centerX, centerY);
+      positions.centerX = centerX;
+      positions.centerY = centerY;
+      positions.mode = "network";
+      return positions;
+    }
+
+    function placeBetween(positions, company, first, second) {
+      const point = positions.get(company);
+      const a = positions.get(first);
+      const b = positions.get(second);
+      if (!point || !a || !b) return;
+      point.x = (a.x + b.x) / 2;
+      point.y = (a.y + b.y) / 2;
+    }
+
+    function applyNetworkPositionOverrides(positions, centerX, centerY) {
+      const overrides = {
+        "Stark Bank": [229, 300],
+        "PayPal": [-180, -22],
+        "Foxbit": [-185, 50],
+        "Nubank": [-180, 163],
+        "Trace Finance": [90, -150],
+        "Circle": [-5, -90],
+        "Liqi": [-160, 300],
+        "Sim;paul Investimentos": [-120, 250]
+      };
+      Object.entries(overrides).forEach(([company, [dx, dy]]) => {
+        const point = positions.get(company);
+        if (!point) return;
+        point.x = centerX + dx;
+        point.y = centerY + dy;
+      });
+    }
+
+    function relaxNetwork(visibleNodes, visibleEdges, positions, width, height) {
+      const names = new Set(visibleNodes.map(node => node.company));
+      const pos = new Map([...positions].map(([name, point]) => [name, {...point, vx: 0, vy: 0}]));
+      const centerX = width * 0.5;
+      const centerY = height * 0.5;
+      const springs = visibleEdges.filter(edge => names.has(edge.from) && names.has(edge.to));
+
+      for (let iter = 0; iter < 260; iter += 1) {
+        for (let i = 0; i < visibleNodes.length; i += 1) {
+          const nodeA = visibleNodes[i];
+          const a = pos.get(nodeA.company);
+          for (let j = i + 1; j < visibleNodes.length; j += 1) {
+            const nodeB = visibleNodes[j];
+            const b = pos.get(nodeB.company);
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist2 = Math.max(dx * dx + dy * dy, 64);
+            const force = 2800 / dist2;
+            const dist = Math.sqrt(dist2);
+            const fx = dx / dist * force;
+            const fy = dy / dist * force;
+            a.vx += fx;
+            a.vy += fy;
+            b.vx -= fx;
+            b.vy -= fy;
+
+            const minDist = networkCollisionRadius(nodeA) + networkCollisionRadius(nodeB);
+            if (dist < minDist) {
+              const push = (minDist - dist) * 0.035;
+              const px = dx / dist * push;
+              const py = dy / dist * push;
+              a.vx += px;
+              a.vy += py;
+              b.vx -= px;
+              b.vy -= py;
+            }
+          }
+        }
+
+        springs.forEach(edge => {
+          const a = pos.get(edge.from);
+          const b = pos.get(edge.to);
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const desired = edge.level === 1 ? 250 : edge.level === 2 ? 335 : 430;
+          const force = (dist - desired) * 0.006;
+          const fx = dx / dist * force;
+          const fy = dy / dist * force;
+          a.vx += fx;
+          a.vy += fy;
+          b.vx -= fx;
+          b.vy -= fy;
+        });
+
+        visibleNodes.forEach(node => {
+          const p = pos.get(node.company);
+          const targetX = node.nodeClass === "Seed" ? centerX - 250 : node.nodeClass === "Critical bridge" ? centerX : centerX + 300;
+          const targetY = node.nodeClass === "Seed" ? centerY + 12 : centerY;
+          p.vx += (targetX - p.x) * 0.0024;
+          p.vy += (targetY - p.y) * 0.0022;
+          p.vx *= 0.78;
+          p.vy *= 0.78;
+          p.x = Math.min(width - 110, Math.max(90, p.x + p.vx));
+          p.y = Math.min(height - 95, Math.max(90, p.y + p.vy));
+        });
+      }
+
+      pos.forEach((point, name) => {
+        positions.set(name, {x: point.x, y: point.y});
+      });
+    }
+
+    function networkCollisionRadius(node) {
+      const labelWidth = node.company.length * 3.2;
+      const licenseBump = licenseSummary(node) ? 11 : 0;
+      const classBump = node.nodeClass === "Seed" ? 22 : node.nodeClass === "Critical bridge" ? 16 : 9;
+      return classBump + Math.min(66, labelWidth) + licenseBump;
+    }
+
+    function separateNetworkNodes(visibleNodes, positions, width, height) {
+      const ordered = [...visibleNodes].sort((a, b) => b.degree - a.degree);
+      for (let iter = 0; iter < 90; iter += 1) {
+        for (let i = 0; i < ordered.length; i += 1) {
+          const nodeA = ordered[i];
+          const a = positions.get(nodeA.company);
+          if (!a) continue;
+          for (let j = i + 1; j < ordered.length; j += 1) {
+            const nodeB = ordered[j];
+            const b = positions.get(nodeB.company);
+            if (!b) continue;
+            const dx = a.x - b.x || 0.1;
+            const dy = a.y - b.y || 0.1;
+            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+            const minDist = networkCollisionRadius(nodeA) + networkCollisionRadius(nodeB);
+            if (dist >= minDist) continue;
+            const push = (minDist - dist) * 0.018;
+            const px = dx / dist * push;
+            const py = dy / dist * push;
+            const aWeight = nodeA.degree >= nodeB.degree ? 0.35 : 0.65;
+            const bWeight = 1 - aWeight;
+            a.x += px * aWeight;
+            a.y += py * aWeight;
+            b.x -= px * bWeight;
+            b.y -= py * bWeight;
+          }
+        }
+        visibleNodes.forEach(node => {
+          const p = positions.get(node.company);
+          if (!p) return;
+          p.x = Math.min(width - 116, Math.max(90, p.x));
+          p.y = Math.min(height - 96, Math.max(90, p.y));
+        });
+      }
+    }
+
+    function networkLabelHints(visibleNodes, positions, width, height, centerX, centerY) {
+      const hints = new Map();
+      const placed = [];
+      const nodeFootprints = visibleNodes.map(node => {
+        const p = positions.get(node.company);
+        return p ? {node, x: p.x, y: p.y, r: nodeRadius(node, "network") + 20} : null;
+      }).filter(Boolean);
+      const ordered = [...visibleNodes].sort((a, b) => {
+        const classScore = {"Seed": 3, "Critical bridge": 2, "Eco player": 1};
+        return (classScore[b.nodeClass] - classScore[a.nodeClass]) || (b.degree - a.degree);
+      });
+
+      ordered.forEach(node => {
+        const p = positions.get(node.company);
+        if (!p) return;
+        const radius = nodeRadius(node, "network");
+        const preferredLeft = p.x < centerX - 36;
+        const candidates = labelCandidates(radius, preferredLeft, p.y < centerY);
+        const textWidth = node.company.length * 6.2 + 8;
+        const license = licenseSummary(node);
+        const licenseWidth = license ? Math.max(28, license.length * 6.4 + 14) : 0;
+        const boxWidth = Math.max(textWidth, licenseWidth);
+        const boxHeight = license ? 36 : 16;
+        let best = null;
+        candidates.forEach(candidate => {
+          const box = labelBox(p, candidate, boxWidth, boxHeight);
+          const score = labelCollisionScore(box, placed, nodeFootprints, node, width, height);
+          if (!best || score < best.score) best = {candidate, score, box};
+        });
+        const chosen = best?.candidate || candidates[0];
+        const chosenBox = best?.box || labelBox(p, chosen, boxWidth, boxHeight);
+        hints.set(node.company, chosen);
+        placed.push(expandBox(chosenBox, 5));
+      });
+      return hints;
+    }
+
+    function labelCandidates(radius, preferredLeft, isUpperHalf) {
+      const side = radius + 13;
+      const far = radius + 24;
+      const extra = radius + 44;
+      const ultra = radius + 78;
+      const vertical = isUpperHalf ? 12 : -10;
+      const left = [
+        {x: -side, y: -2, anchor: "end"},
+        {x: -side, y: vertical, anchor: "end"},
+        {x: -far, y: -18, anchor: "end"},
+        {x: -far, y: 20, anchor: "end"},
+        {x: -extra, y: -34, anchor: "end"},
+        {x: -extra, y: 34, anchor: "end"},
+        {x: -ultra, y: -56, anchor: "end"},
+        {x: -ultra, y: 56, anchor: "end"}
+      ];
+      const right = [
+        {x: side, y: -2, anchor: "start"},
+        {x: side, y: vertical, anchor: "start"},
+        {x: far, y: -18, anchor: "start"},
+        {x: far, y: 20, anchor: "start"},
+        {x: extra, y: -34, anchor: "start"},
+        {x: extra, y: 34, anchor: "start"},
+        {x: ultra, y: -56, anchor: "start"},
+        {x: ultra, y: 56, anchor: "start"}
+      ];
+      const verticals = [
+        {x: 0, y: -(radius + 18), anchor: "middle"},
+        {x: 0, y: radius + 24, anchor: "middle"},
+        {x: 0, y: -(radius + 46), anchor: "middle"},
+        {x: 0, y: radius + 52, anchor: "middle"},
+        {x: -52, y: -(radius + 62), anchor: "middle"},
+        {x: 52, y: -(radius + 62), anchor: "middle"},
+        {x: -52, y: radius + 70, anchor: "middle"},
+        {x: 52, y: radius + 70, anchor: "middle"},
+        {x: preferredLeft ? -side : side, y: radius + 26, anchor: preferredLeft ? "end" : "start"}
+      ];
+      return preferredLeft ? [...left, ...right, ...verticals] : [...right, ...left, ...verticals];
+    }
+
+    function labelBox(point, candidate, width, height) {
+      const x = point.x + candidate.x;
+      const y = point.y + candidate.y;
+      const left = candidate.anchor === "end" ? x - width : candidate.anchor === "middle" ? x - width / 2 : x;
+      return {x: left, y: y - 12, width, height};
+    }
+
+    function labelCollisionScore(box, placed, nodeFootprints, currentNode, width, height) {
+      let score = 0;
+      if (box.x < 24 || box.y < 24 || box.x + box.width > width - 24 || box.y + box.height > height - 24) score += 600;
+      placed.forEach(other => {
+        const overlap = rectOverlapArea(box, other);
+        if (overlap > 0) score += overlap * 2.2 + 120;
+      });
+      nodeFootprints.forEach(item => {
+        if (item.node.company === currentNode.company) return;
+        if (rectCircleOverlap(box, item.x, item.y, item.r)) score += 520;
+      });
+      return score;
+    }
+
+    function rectOverlapArea(a, b) {
+      const x = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+      const y = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+      return x * y;
+    }
+
+    function rectCircleOverlap(rect, cx, cy, r) {
+      const closestX = Math.max(rect.x, Math.min(cx, rect.x + rect.width));
+      const closestY = Math.max(rect.y, Math.min(cy, rect.y + rect.height));
+      const dx = cx - closestX;
+      const dy = cy - closestY;
+      return dx * dx + dy * dy < r * r;
+    }
+
+    function expandBox(box, amount) {
+      return {
+        x: box.x - amount,
+        y: box.y - amount,
+        width: box.width + amount * 2,
+        height: box.height + amount * 2
+      };
+    }
+
+    function placeRing(group, cx, cy, radius, startAngle, positions) {
+      const sorted = [...group].sort((a, b) => {
+        if (b.degree !== a.degree) return b.degree - a.degree;
+        return a.company.localeCompare(b.company);
+      });
+      sorted.forEach((node, index) => {
+        const angle = startAngle + (Math.PI * 2 * index) / Math.max(sorted.length, 1);
+        positions.set(node.company, {
+          x: cx + Math.cos(angle) * radius,
+          y: cy + Math.sin(angle) * radius
+        });
+      });
+    }
+
+    function drawLanes(svg, width, height, positions) {
+      const layer = group(svg, "lanes");
+      if (positions.mode === "layered") {
+        const laneX = positions.laneX || {};
+        const laneData = [
+          ["Seed", laneX["Seed"] || 150],
+          ["Critical bridge", laneX["Critical bridge"] || Math.round(width * 0.43)],
+          ["Eco player", laneX["Eco player"] || Math.round(width * 0.77)]
+        ];
+        laneData.forEach(([label, x]) => {
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", x);
+          line.setAttribute("x2", x);
+          line.setAttribute("y1", 52);
+          line.setAttribute("y2", height - 40);
+          line.setAttribute("stroke", "#cbd5e1");
+          line.setAttribute("stroke-dasharray", "4 6");
+          layer.appendChild(line);
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", x);
+          text.setAttribute("y", 34);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("class", "lane-label");
+          text.textContent = label;
+          layer.appendChild(text);
+        });
+      }
+    }
+
+    function drawEdges(svg, visibleEdges, positions) {
+      const layer = group(svg, "edges");
+      const labelLayer = group(svg, "edge-labels");
+
+      visibleEdges.forEach(edge => {
+        const source = positions.get(edge.from);
+        const target = positions.get(edge.to);
+        if (!source || !target) return;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const dx = target.x - source.x;
+        const curve = positions.mode === "layered"
+          ? `M ${source.x} ${source.y} C ${source.x + dx * 0.46} ${source.y}, ${target.x - dx * 0.46} ${target.y}, ${target.x} ${target.y}`
+          : curvedPath(source, target, edge.level);
+        path.setAttribute("d", curve);
+        path.setAttribute("class", edgeClass(edge));
+        path.setAttribute("stroke", edgeColors[edge.edgeType] || "#64748b");
+        path.setAttribute("tabindex", "0");
+        path.addEventListener("click", event => {
+          event.stopPropagation();
+          state.selectedEdge = edge;
+          state.selectedNode = null;
+          state.focusedEdge = edge;
+          renderAll();
+        });
+        layer.appendChild(path);
+
+        if (positions.mode === "layered" && edge.stablecoin && edge.stablecoin !== "—") {
+          const mid = midpoint(source, target);
+          const labelText = edge.stablecoin.length > 18 ? edge.stablecoin.slice(0, 17) + "…" : edge.stablecoin;
+          const dotX = mid.x - Math.max(18, labelText.length * 2.7);
+          const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dot.setAttribute("cx", dotX);
+          dot.setAttribute("cy", mid.y - 8);
+          dot.setAttribute("r", "4");
+          dot.setAttribute("class", "edge-type-dot");
+          dot.setAttribute("fill", edgeColors[edge.edgeType] || "#64748b");
+          labelLayer.appendChild(dot);
+
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", mid.x);
+          text.setAttribute("y", mid.y - 5);
+          text.setAttribute("class", "edge-label");
+          text.setAttribute("text-anchor", "middle");
+          text.textContent = labelText;
+          labelLayer.appendChild(text);
+        }
+      });
+    }
+
+    function curvedPath(source, target, level) {
+      const mx = (source.x + target.x) / 2;
+      const my = (source.y + target.y) / 2;
+      const dx = target.x - source.x;
+      const dy = target.y - source.y;
+      const length = Math.sqrt(dx * dx + dy * dy) || 1;
+      const normalX = -dy / length;
+      const normalY = dx / length;
+      const bend = level === 1 ? 28 : 42;
+      return `M ${source.x} ${source.y} Q ${mx + normalX * bend} ${my + normalY * bend}, ${target.x} ${target.y}`;
+    }
+
+    function edgeClass(edge) {
+      const classes = ["edge"];
+      if ((state.selectedEdge && state.selectedEdge.id === edge.id) || (state.focusedEdge && state.focusedEdge.id === edge.id)) classes.push("focus");
+      if (state.selectedNode) {
+        if (state.focusedEdge && state.focusedEdge.id !== edge.id) {
+          classes.push("dim");
+        } else if (edge.from === state.selectedNode.company || edge.to === state.selectedNode.company) {
+          classes.push("focus");
+        } else {
+          classes.push("dim");
+        }
+      }
+      return classes.join(" ");
+    }
+
+    function midpoint(a, b) {
+      return {x: (a.x + b.x) / 2, y: (a.y + b.y) / 2};
+    }
+
+    function drawNodes(svg, visibleNodes, positions) {
+      const layer = group(svg, "nodes");
+      visibleNodes.forEach(node => {
+        const pos = positions.get(node.company);
+        if (!pos) return;
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const cls = node.nodeClass === "Seed" ? "seed" : node.nodeClass === "Critical bridge" ? "bridge" : "eco";
+        g.setAttribute("class", nodeClass(node, cls));
+        g.setAttribute("transform", `translate(${pos.x}, ${pos.y})`);
+        g.setAttribute("tabindex", "0");
+        g.addEventListener("click", event => {
+          event.stopPropagation();
+          state.selectedNode = node;
+          state.selectedEdge = null;
+          state.focusedEdge = null;
+          renderAll();
+        });
+
+        const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        title.textContent = `${node.company}\n${node.business}\nLicense: ${licenseSummary(node) || "—"}\nPix: ${displayPix(node.pix)}`;
+        g.appendChild(title);
+
+        const radius = nodeRadius(node, positions.mode);
+        if (node.nodeClass === "Seed" || node.nodeClass === "Critical bridge") {
+          const ring = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          ring.setAttribute("r", node.nodeClass === "Seed" ? radius + 7 : radius + 6);
+          ring.setAttribute("class", "class-ring");
+          ring.setAttribute("stroke", "#111827");
+          ring.setAttribute("stroke-width", node.nodeClass === "Seed" ? "3.2" : "1.7");
+          ring.setAttribute("stroke-dasharray", node.nodeClass === "Seed" ? "" : "4 4");
+          ring.setAttribute("opacity", node.nodeClass === "Seed" ? ".82" : ".72");
+          g.appendChild(ring);
+        }
+
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("r", radius);
+        circle.setAttribute("class", "core");
+        circle.setAttribute("fill", roleColors[node.mainRole] || "#94a3b8");
+        g.appendChild(circle);
+
+        const degree = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        degree.setAttribute("class", "degree-text");
+        degree.textContent = node.degree;
+        g.appendChild(degree);
+
+        const pix = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        pix.setAttribute("cx", radius + 6);
+        pix.setAttribute("cy", -radius - 5);
+        pix.setAttribute("r", "5");
+        pix.setAttribute("class", "pix-mark");
+        pix.setAttribute("fill", pixColor(node.pix));
+        g.appendChild(pix);
+
+        if (node.pix === "direct" || node.pix === "indirect") {
+          const check = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          check.setAttribute("x", radius + 6);
+          check.setAttribute("y", -radius - 5);
+          check.setAttribute("class", "pix-check");
+          check.textContent = node.pix === "direct" ? "✓" : "⍻";
+          g.appendChild(check);
+        }
+
+        const labelHint = positions.mode === "network" ? positions.labelHints?.get(node.company) : null;
+        const labelLeft = positions.mode === "network" && pos.x < (positions.centerX || 0);
+        const textX = positions.mode === "layered" ? 18 : labelHint ? labelHint.x : labelLeft ? -(radius + 7) : radius + 7;
+        const textY = positions.mode === "layered" ? -2 : labelHint ? labelHint.y : -2;
+        const anchor = positions.mode === "layered" ? "start" : labelHint ? labelHint.anchor : labelLeft ? "end" : "start";
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", textX);
+        label.setAttribute("y", textY);
+        label.setAttribute("class", "node-label");
+        label.setAttribute("text-anchor", anchor);
+        label.textContent = node.company;
+        g.appendChild(label);
+
+        const license = licenseSummary(node);
+        if (license) g.appendChild(svgLicenseTag(license, textX, textY + 16, anchor));
+
+        layer.appendChild(g);
+      });
+      svg.onclick = () => {
+        state.selectedNode = null;
+        state.selectedEdge = null;
+        state.focusedEdge = null;
+        renderAll();
+      };
+    }
+
+    function nodeClass(node, cls) {
+      const classes = ["node", cls];
+      if (state.selectedNode) {
+        if (state.selectedNode.company === node.company) {
+          classes.push("focus");
+        } else {
+          const isNeighbor = edges.some(edge =>
+            (edge.from === state.selectedNode.company && edge.to === node.company) ||
+            (edge.to === state.selectedNode.company && edge.from === node.company)
+          );
+          if (!isNeighbor) classes.push("dim");
+        }
+      }
+      if (state.selectedEdge) {
+        if (state.selectedEdge.from === node.company || state.selectedEdge.to === node.company) {
+          classes.push("focus");
+        } else {
+          classes.push("dim");
+        }
+      }
+      if (state.focusedEdge) {
+        if (state.focusedEdge.from === node.company || state.focusedEdge.to === node.company) {
+          classes.push("focus");
+        } else {
+          classes.push("dim");
+        }
+      }
+      return classes.join(" ");
+    }
+
+    function nodeRadius(node, mode) {
+      const base = node.nodeClass === "Seed" ? 13 : node.nodeClass === "Critical bridge" ? 11 : 7;
+      if (mode !== "network") return base;
+      return base + Math.min(5, Math.max(0, node.degree - 1) * 0.55);
+    }
+
+    function svgLicenseTag(text, x, y, anchor = "start") {
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      const width = Math.max(28, text.length * 6.4 + 14);
+      const color = licenseColors.get(text) || "#94a3b8";
+      const rectX = anchor === "end" ? x - width : anchor === "middle" ? x - width / 2 : x;
+      g.setAttribute("class", "license-mark");
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      rect.setAttribute("x", rectX);
+      rect.setAttribute("y", y);
+      rect.setAttribute("width", width);
+      rect.setAttribute("height", 18);
+      rect.setAttribute("fill", softColor(color));
+      g.appendChild(rect);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", rectX + 7);
+      label.setAttribute("y", y + 9);
+      label.textContent = text;
+      g.appendChild(label);
+      return g;
+    }
+
+    function group(svg, id) {
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("id", id);
+      svg.appendChild(g);
+      return g;
+    }
+
+    function renderDetail() {
+      const panel = document.getElementById("detailPanel");
+      if (state.selectedEdge) {
+        const edge = state.selectedEdge;
+        panel.innerHTML = `
+          <div class="detail-title">${esc(edge.from)} → ${esc(edge.to)}</div>
+          <div class="detail-kicker">${esc(edge.id)} · ${esc(displayEdgeType(edge.edgeType))} · Level ${edge.level}</div>
+          ${detailRow("Stablecoin", edge.stablecoin)}
+          ${detailRow("Notes", edge.notes)}
+          ${detailRow("Evidence", link(edge.evidenceUrl, edge.evidence))}
+        `;
+        return;
+      }
+
+      const node = state.selectedNode || nodeByName.get("Banco Rendimento");
+      panel.innerHTML = `
+        <div class="detail-title">${esc(node.company)}</div>
+        <div class="detail-kicker">${esc(node.nodeClass)} · ${esc(node.mainRole)} · degree ${node.degree}</div>
+        ${detailRow("Role", rolePills(node.role))}
+        ${detailRow("Brazil entity", node.brazilEntity)}
+        ${detailRow("License", licensePills(node.license))}
+        ${detailRow("Pix", pixLegendItem(node.pix))}
+        ${detailRow("Business", node.business)}
+        ${detailRow("Stablecoin coverage", stablecoinPills(node.stablecoin))}
+        ${detailRow("Notes", node.notes)}
+        ${detailRow("Website", link(node.website, node.website.replace(/^https?:\/\//, "").replace(/\/$/, "")))}
+      `;
+    }
+
+    function detailRow(label, value) {
+      return `<div class="detail-row"><div class="label">${esc(label)}</div><div class="value">${value}</div></div>`;
+    }
+
+    function rolePills(role) {
+      return role.split(",").map(item => {
+        const clean = item.trim();
+        const main = clean.includes("*");
+        const text = clean.replace("*", "");
+        const color = roleColors[text] || "#94a3b8";
+        const style = main
+          ? `background:${color};color:#fff;border-color:${color};`
+          : `background:#fff;color:${color};border-color:${color};`;
+        return `<span class="pill role-pill ${main ? "role-main" : "role-secondary"}" style="${style}">${esc(text)}</span>`;
+      }).join("");
+    }
+
+    function renderDegreeList({visibleNodes}) {
+      const ranked = [...visibleNodes].sort((a, b) => b.degree - a.degree).slice(0, 10);
+      const max = Math.max(...ranked.map(node => node.degree), 1);
+      document.getElementById("degreeList").innerHTML = ranked.map(node => `
+        <div class="degree-item">
+          <div>
+            <strong>${esc(node.company)}</strong>
+            <div class="bar"><span style="width:${Math.round(node.degree / max * 100)}%"></span></div>
+          </div>
+          <span>${node.degree}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderRelationshipLegend() {
+      document.getElementById("relationshipLegend").innerHTML = relationshipDefs.map(item => `
+        <tr>
+          <td>${edgeTypePill(item.type)}</td>
+          <td>${esc(item.description)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderEdgeDashboard(data = getVisibleData()) {
+      const title = document.getElementById("edgeDashboardTitle");
+      const hint = document.getElementById("edgeDashboardHint");
+      const table = document.getElementById("edgeDashboardTable");
+      const node = state.selectedNode;
+
+      if (!node) {
+        title.textContent = "Selected node relationships";
+        hint.textContent = "请点击图中节点";
+        table.innerHTML = `<div class="dashboard-muted">No node selected. Click a graph node to inspect From / To relationships.</div>`;
+        return;
+      }
+
+      const showFrom = state.edgeDirections.has("From");
+      const showTo = state.edgeDirections.has("To");
+      const rows = data.visibleEdges.filter(edge => {
+        const directionMatch = (showFrom && edge.from === node.company) || (showTo && edge.to === node.company);
+        return directionMatch && state.dashboardEdgeTypes.has(edge.edgeType);
+      });
+
+      title.textContent = node.company;
+      hint.textContent = `${rows.length} visible relationship${rows.length === 1 ? "" : "s"} after direction and edge-type filters.`;
+      table.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>From</th><th>To</th><th>Type</th><th>Stablecoin</th><th>Evidence</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map(edge => `
+              <tr tabindex="0" data-edge-id="${esc(edge.id)}">
+                <td><strong>${esc(edge.from)}</strong></td>
+                <td><strong>${esc(edge.to)}</strong></td>
+                <td>${edgeTypePill(edge.edgeType)}</td>
+                <td>${stablecoinPills(edge.stablecoin)}</td>
+                <td>${link(edge.evidenceUrl, edge.evidence)}</td>
+              </tr>
+            `).join("") || `<tr><td colspan="5">No matching edge under current filters.</td></tr>`}
+          </tbody>
+        </table>
+      `;
+      table.querySelectorAll("tr[data-edge-id]").forEach(row => {
+        row.addEventListener("click", () => {
+          state.focusedEdge = edges.find(edge => edge.id === row.dataset.edgeId) || null;
+          state.selectedEdge = state.focusedEdge;
+          renderAll();
+        });
+      });
+    }
+
+    function renderNodePage() {
+      renderNodeInfo();
+      const list = filteredNodeList();
+      document.getElementById("nodeTableContent").innerHTML = state.nodeView === "table"
+        ? nodeTable(list)
+        : nodeBoard(list);
+      if (state.nodeView === "table") {
+        bindColumnFilters();
+      } else {
+        document.getElementById("columnFilterMenu").classList.add("hidden");
+        state.openColumnFilter = null;
+      }
+    }
+
+    function renderNodeInfo() {
+      const target = document.getElementById("infoBody");
+      if (state.infoTab === "role") {
+        target.innerHTML = `
+          <p>Role 描述节点在稳定币支付价值链中的职能分类。通过主（实心色块）次要角色（白底彩色边框）区分节点最核心的功能与同时覆盖的附加能力，便于快速识别每个公司在生态中的定位，串联起从稳定币发行到终端收付的完整链路。</p>
+          <table class="mini-table">
+            <thead><tr><th>Role</th><th>中文解释</th><th>典型职责</th></tr></thead>
+            <tbody>
+              ${roleDefs.map(item => `
+                <tr>
+                  <td>${rolePills(`${item.role}*`)}</td>
+                  <td>${esc(item.zh)}</td>
+                  <td>${esc(item.duties)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      } else if (state.infoTab === "pix") {
+        target.innerHTML = `
+          <p>PIX 描述节点接入巴西央行即时支付系统 Pix 的方式。其接入能力直接决定一家机构能否做实时法币出入金，是筛选巴西合作方的重要指标，直接决定其作为稳定币支付 ramp 或结算底座的可用性。</p>
+          <table class="mini-table">
+            <thead><tr><th>接入方式</th><th>定义</th><th>对稳定币支付的意义</th></tr></thead>
+            <tbody>
+              <tr><td>${pixLegendItem("direct")}</td><td>通过 SPI 直接与央行结算，需要清算账户、技术、风控和合规能力。</td><td>可成为实时 BRL on/off-ramp 或结算银行底座。</td></tr>
+              <tr><td>${pixLegendItem("indirect")}</td><td>通过直接参与者间接接入，由对方提供清算账户和通道。</td><td>适合作为前端、钱包、交易所或 PSP，但依赖上游 sponsor。</td></tr>
+              <tr><td>${pixLegendItem("—")}</td><td>未验证到 Pix 参与状态，或该机构不是巴西本地 Pix 参与主体。</td><td>不能直接作为本地 FI 连接能力判断依据。</td></tr>
+            </tbody>
+          </table>
+        `;
+      } else {
+        target.innerHTML = `
+          <p>License 描述节点在巴西持有的合规牌照类型。是决定其能否持有客户资金、接入 Pix、做银行/经纪业务，或承担支付链路中的监管责任的关键。便于能否作为本地发行、储备、出入金、收单、支付发起或分发合作方。</p>
+          <table class="mini-table">
+            <thead><tr><th>License</th><th>能否直连 Pix?</th><th>能否持有客户资金?</th><th>稳定币支付中的典型角色</th></tr></thead>
+            <tbody>
+              ${licenseDefs.map(item => `
+                <tr>
+                  <td>${licensePills(item.license)}</td>
+                  <td>${esc(item.directPix)}</td>
+                  <td>${esc(item.holdsFunds)}</td>
+                  <td>${esc(item.role)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+
+    function filteredNodeList() {
+      const query = state.nodeSearch;
+      return nodes.filter(node => {
+        const textMatch = !query || [
+          node.company, node.role, node.business, node.license, node.pix,
+          node.notes, node.brazilEntity, node.stablecoin, node.website
+        ].join(" ").toLowerCase().includes(query);
+        const roleMatch = state.nodeRoles.has(node.mainRole);
+        const licenseMatch = licenseTokens(node).some(item => state.nodeLicenses.has(item));
+        const pixMatch = state.nodePix.has(node.pix);
+        const entityMatch = state.nodeEntities.has(node.brazilEntity === "—" ? "—" : "Has Brazil Entity");
+        const nodeStablecoins = stablecoinTokens(node.stablecoin);
+        const stablecoinMatch = nodeStablecoins[0] === "—"
+          ? state.nodeStablecoins.size === stablecoinFilterItems.length
+          : nodeStablecoins.some(item => state.nodeStablecoins.has(item));
+        return textMatch && roleMatch && licenseMatch && pixMatch && entityMatch && stablecoinMatch;
+      }).sort((a, b) => {
+        if (b.degree !== a.degree) return b.degree - a.degree;
+        return a.company.localeCompare(b.company);
+      });
+    }
+
+    function nodeTable(list) {
+      return `
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>${filterHeader("Role", "role")}</th>
+              <th>Business</th>
+              <th>${filterHeader("License", "license")}</th>
+              <th>${filterHeader("Pix", "pix")}</th>
+              <th>Notes</th>
+              <th>${filterHeader("Brazil Entity", "entity")}</th>
+              <th>${filterHeader("Stablecoin", "stablecoin")}</th>
+              <th>Website</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(node => `
+              <tr>
+                <td><strong>${esc(node.company)}</strong></td>
+                <td>${rolePills(node.role)}</td>
+                <td>${esc(node.business)}</td>
+                <td>${licensePills(node.license)}</td>
+                <td>${pixLegendItem(node.pix)}</td>
+                <td>${esc(node.notes)}</td>
+                <td>${esc(node.brazilEntity)}</td>
+                <td>${stablecoinPills(node.stablecoin)}</td>
+                <td>${link(node.website)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function nodeBoard(list) {
+      const grouped = new Map(roles.map(role => [role, []]));
+      list.forEach(node => grouped.get(node.mainRole)?.push(node));
+      return `
+        <div class="node-board">
+          ${roles.map(role => {
+            const color = roleColors[role] || "#94a3b8";
+            const group = grouped.get(role) || [];
+            return `
+              <section class="role-column" style="background:${softColor(color)}">
+                <h3 class="role-column-title" style="background:${color};color:#fff;">
+                  ${esc(role)} <span class="role-column-count">${group.length}</span>
+                </h3>
+                ${group.map(nodeCard).join("") || `<div class="dashboard-muted">No matching nodes.</div>`}
+              </section>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function nodeCard(node) {
+      const secondaryRoles = secondaryRolePills(node.role);
+      return `
+        <article class="node-card">
+          <h4 class="node-card-title">${nodeClassMarker(node.nodeClass)}${esc(node.company)}</h4>
+          ${secondaryRoles ? `<div>${secondaryRoles}</div>` : ""}
+          <div class="node-card-meta">
+            <span class="node-card-label">License</span>
+            ${licensePills(node.license)}
+          </div>
+          <div class="node-card-meta">
+            <span class="node-card-label">PIX</span>
+            ${pixLegendItem(node.pix)}
+          </div>
+          <div class="node-card-meta">
+            <span class="node-card-label">Stablecoin</span>
+            ${stablecoinPills(node.stablecoin)}
+          </div>
+          <div class="node-card-notes">
+            <span class="node-card-label">Notes</span>
+            ${esc(node.notes)}
+          </div>
+        </article>
+      `;
+    }
+
+    function secondaryRolePills(role) {
+      const secondary = role.split(",")
+        .map(item => item.trim())
+        .filter(item => item && !item.includes("*"))
+        .join(", ");
+      return secondary ? rolePills(secondary) : "";
+    }
+
+    function filterHeader(label, key) {
+      return `<span class="filter-th">${esc(label)}<button class="filter-trigger" type="button" data-filter-key="${esc(key)}" aria-label="Filter ${esc(label)}">${filterIcon()}</button></span>`;
+    }
+
+    function filterIcon() {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5z" fill="currentColor"></path></svg>`;
+    }
+
+    function bindColumnFilters() {
+      document.querySelectorAll("[data-filter-key]").forEach(button => {
+        button.addEventListener("click", event => {
+          event.stopPropagation();
+          const key = button.dataset.filterKey;
+          state.openColumnFilter = state.openColumnFilter === key ? null : key;
+          renderColumnFilter(button, key);
+        });
+      });
+      document.addEventListener("click", closeColumnFilter, {once: true});
+      if (state.openColumnFilter) {
+        const button = document.querySelector(`[data-filter-key="${state.openColumnFilter}"]`);
+        if (button) renderColumnFilter(button, state.openColumnFilter);
+      }
+    }
+
+    function closeColumnFilter(event) {
+      const menu = document.getElementById("columnFilterMenu");
+      if (event && (menu.contains(event.target) || event.target.closest("[data-filter-key]"))) {
+        document.addEventListener("click", closeColumnFilter, {once: true});
+        return;
+      }
+      menu.classList.add("hidden");
+      state.openColumnFilter = null;
+    }
+
+    function renderColumnFilter(button, key) {
+      const menu = document.getElementById("columnFilterMenu");
+      if (!key) {
+        menu.classList.add("hidden");
+        return;
+      }
+      const config = columnFilterConfig(key);
+      const rect = button.getBoundingClientRect();
+      const hostRect = document.querySelector(".node-table-card").getBoundingClientRect();
+      menu.style.left = `${Math.max(8, rect.left - hostRect.left - 10)}px`;
+      menu.style.top = `${rect.bottom - hostRect.top + 6}px`;
+      menu.innerHTML = `
+        <div class="filter-actions">
+          <button class="filter-action" type="button" data-column-action="all">All</button>
+          <button class="filter-action" type="button" data-column-action="clear">Clear</button>
+        </div>
+        ${config.items.map(item => `
+        <label class="check">
+          <input type="checkbox" data-column-key="${esc(key)}" data-value="${esc(item)}" ${config.set.has(item) ? "checked" : ""} />
+          ${config.render(item)}
+        </label>
+      `).join("")}`;
+      menu.classList.remove("hidden");
+      menu.querySelector('[data-column-action="all"]').addEventListener("click", event => {
+        event.stopPropagation();
+        config.items.forEach(item => config.set.add(item));
+        state.openColumnFilter = key;
+        renderNodePage();
+      });
+      menu.querySelector('[data-column-action="clear"]').addEventListener("click", event => {
+        event.stopPropagation();
+        config.set.clear();
+        state.openColumnFilter = key;
+        renderNodePage();
+      });
+      menu.querySelectorAll("input").forEach(input => {
+        input.addEventListener("change", event => {
+          const {columnKey, value} = event.target.dataset;
+          const cfg = columnFilterConfig(columnKey);
+          if (event.target.checked) cfg.set.add(value);
+          else cfg.set.delete(value);
+          state.openColumnFilter = columnKey;
+          renderNodePage();
+        });
+      });
+    }
+
+    function columnFilterConfig(key) {
+      if (key === "role") return {items: roles, set: state.nodeRoles, render: item => `<span class="swatch" style="background:${roleColors[item] || "#94a3b8"}"></span>${esc(item)}`};
+      if (key === "license") return {items: licenseFilterItems, set: state.nodeLicenses, render: item => licensePills(item)};
+      if (key === "pix") return {items: pixTypes, set: state.nodePix, render: item => pixLegendItem(item)};
+      if (key === "entity") return {items: entityFilterItems, set: state.nodeEntities, render: item => esc(item)};
+      return {items: stablecoinFilterItems, set: state.nodeStablecoins, render: item => stablecoinPills(item)};
+    }
+
+    function edgeTypePill(type) {
+      const color = edgeColors[type] || "#94a3b8";
+      return `<span class="pill edge-pill" style="background:${softColor(color)};color:#334155"><span class="swatch" style="background:${color};margin-right:5px"></span>${esc(displayEdgeType(type))}</span>`;
+    }
+
+    function licenseTokens(nodeOrText) {
+      const text = typeof nodeOrText === "string" ? nodeOrText : nodeOrText.license;
+      if (!text || text === "—") return ["—"];
+      return text.split(",").map(item => item.trim()).filter(Boolean).map(item => item === "bank" ? "Bank" : item);
+    }
+
+    function licensePills(value) {
+      return licenseTokens(value).map(item => {
+        const color = licenseColors.get(item) || "#94a3b8";
+        return `<span class="pill license-pill" style="background:${softColor(color)};color:${item === "—" ? "#475569" : "#111827"}">${esc(item)}</span>`;
+      }).join("");
+    }
+
+    function stablecoinPills(value) {
+      if (!value || value === "—") return `<span class="pill stablecoin-pill">—</span>`;
+      return stablecoinTokens(value).map(item => {
+        return `<span class="pill stablecoin-pill">${esc(item)}</span>`;
+      }).join("");
+    }
+
+    function pixLegendItem(value) {
+      const color = pixColor(value);
+      const symbol = value === "direct" ? "✓" : value === "indirect" ? "⍻" : "";
+      return `<span class="pix-legend"><span class="pix-dot" style="background:${color}">${symbol}</span>${esc(displayPix(value))}</span>`;
+    }
+
+    function nodeClassMarker(value) {
+      const cls = value === "Seed" ? "seed" : value === "Critical bridge" ? "bridge" : "eco";
+      return `<span class="class-marker ${cls}" aria-hidden="true"></span>`;
+    }
+
+    function pixColor(value) {
+      if (value === "direct") return "#16a34a";
+      if (value === "indirect") return "#f97316";
+      return "#94a3b8";
+    }
+
+    function licenseSummary(node) {
+      const token = licenseTokens(node)[0];
+      return token === "—" ? "" : token;
+    }
+
+    function softColor(color) {
+      return `${color}24`;
+    }
+
+    function darkenText(color) {
+      return color || "#334155";
+    }
+
+    function displayEdgeType(type) {
+      const labels = {
+        partnership: "Partnership",
+        client: "Client",
+        investor: "Investor",
+        ownership: "Ownership"
+      };
+      return labels[type] || "";
+    }
+
+    function displayPix(value) {
+      if (value === "direct") return "Direct";
+      if (value === "indirect") return "Indirect";
+      return "—";
+    }
+
+    function stablecoinTokens(value) {
+      if (!value || value === "—") return ["—"];
+      const tokens = value.split(",").map(item => item.trim()).filter(item => stablecoinNames.has(item));
+      return tokens.length ? tokens : ["—"];
+    }
+  </script>
+</body>
+</html>
